@@ -11,7 +11,7 @@
 
 #include "Task_RobotUI.h"
 #include "PowerControl.h"
-float CAP_Ratio =0.00 ;
+float CAP_Ratio =0.00;
 char stringKeep[] = {"Shoot:\nRotate:\nAuto:\nCtrl:\n"};
 char stringWarning[]={"Warning"};
 
@@ -27,12 +27,8 @@ void UI_Draw_Static_1() {
 }
 //×Ö·û
 void UI_Draw_Static_2() {
-	UI_FUN.Line_Draw(&UI_Graph5.imageData[0], "001", UI_Graph_Add, 0, UI_Color_Green, 2,  840,  520,  1080,  520);
-	UI_FUN.Line_Draw(&UI_Graph5.imageData[1], "002", UI_Graph_Add, 0, UI_Color_Green, 2,  855,  480,  1065,  480);
-	UI_FUN.Line_Draw(&UI_Graph5.imageData[2], "003", UI_Graph_Add, 0, UI_Color_Green, 2,  870,  440,  1050,  440);
-	UI_FUN.Line_Draw(&UI_Graph5.imageData[3], "004", UI_Graph_Add, 0, UI_Color_Green, 2,  895,  400,  1035,  400);
-	UI_FUN.Line_Draw(&UI_Graph5.imageData[4], "005", UI_Graph_Add, 0, UI_Color_Green, 2,  960,  680,  960,  320);
-	UI_FUN.UI_PushUp_Graphs(5, &UI_Graph5);
+	UI_FUN.Char_Draw(&UI_String1.String,"006",UI_Graph_Add, 3, UI_Color_Main ,30, sizeof(stringKeep) , 5,30 ,850 , stringKeep);
+	UI_FUN.UI_PushUp_String(&UI_String1);
 }
 void UI_Draw_Static_3() {
 	UI_FUN.Circle_Draw(&UI_Graph1.imageData[0],"007",UI_Graph_Add, 1, UI_Color_White, 3, 1600, 800, 100);
