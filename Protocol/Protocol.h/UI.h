@@ -122,8 +122,8 @@ typedef struct
    u32 graphic_tpye:3; 
    u32 layer:4; 
    u32 color:4; 
-   u32 start_angle:9;
-   u32 end_angle:9;
+   u32 details_a:9;
+   u32 details_b:9;
    u32 width:10; 
    u32 start_x:11; 
    u32 start_y:11;
@@ -137,21 +137,21 @@ u32 operate_tpye:3;
 u32 graphic_tpye:3; 
 u32 layer:4; 
 u32 color:4; 
-u32 start_angle:9;
-u32 end_angle:9;
+u32 details_a:9;
+u32 details_b:9;
 u32 width:10; 
 u32 start_x:11; 
 u32 start_y:11;
-u32 radius:10; 
-u32 end_x:11; 
-u32 end_y:11;              //图形数据
+u32 details_c:10; 
+u32 details_d:11; 
+u32 details_e:11;              //图形数据
 } Graph_Data;
 
 
 typedef struct
 {
    Graph_Data Graph_Control;
-   char show_Data[40];
+   char show_Data[30];
 } String_Data;                  //字符串数据
 
 typedef struct

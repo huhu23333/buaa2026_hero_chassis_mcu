@@ -8,7 +8,7 @@ draftofomniwheel\gpio.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h
 draftofomniwheel\gpio.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 draftofomniwheel\gpio.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h
 draftofomniwheel\gpio.o: ../Drivers/CMSIS/Include/core_cm4.h
-draftofomniwheel\gpio.o: E:\ProgramFile\MDK\core\ARM\ARMCC\Bin\..\include\stdint.h
+draftofomniwheel\gpio.o: G:\Software2\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
 draftofomniwheel\gpio.o: ../Drivers/CMSIS/Include/cmsis_version.h
 draftofomniwheel\gpio.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 draftofomniwheel\gpio.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
@@ -16,7 +16,7 @@ draftofomniwheel\gpio.o: ../Drivers/CMSIS/Include/mpu_armv7.h
 draftofomniwheel\gpio.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h
 draftofomniwheel\gpio.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 draftofomniwheel\gpio.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-draftofomniwheel\gpio.o: E:\ProgramFile\MDK\core\ARM\ARMCC\Bin\..\include\stddef.h
+draftofomniwheel\gpio.o: G:\Software2\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
 draftofomniwheel\gpio.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 draftofomniwheel\gpio.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 draftofomniwheel\gpio.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h
@@ -36,9 +36,9 @@ draftofomniwheel\gpio.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h
 draftofomniwheel\gpio.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 draftofomniwheel\gpio.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 draftofomniwheel\gpio.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
-draftofomniwheel\gpio.o: E:\ProgramFile\MDK\core\ARM\ARMCC\Bin\..\include\string.h
-draftofomniwheel\gpio.o: E:\ProgramFile\MDK\core\ARM\ARMCC\Bin\..\include\stdio.h
-draftofomniwheel\gpio.o: E:\ProgramFile\MDK\core\ARM\ARMCC\Bin\..\include\math.h
+draftofomniwheel\gpio.o: G:\Software2\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
+draftofomniwheel\gpio.o: G:\Software2\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdio.h
+draftofomniwheel\gpio.o: G:\Software2\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\math.h
 draftofomniwheel\gpio.o: ../APPs/APPs.h/struct_typedef.h
 draftofomniwheel\gpio.o: ../Algorithm/Algorithm.h/arm_math.h
 draftofomniwheel\gpio.o: ../Drivers/CMSIS/Include/core_cm4.h

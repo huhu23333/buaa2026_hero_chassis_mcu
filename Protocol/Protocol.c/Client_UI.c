@@ -299,8 +299,8 @@ void Line_Draw(Graph_Data *image,char imagename[3],u32 Graph_Operate,u32 Graph_L
    image->width = Graph_Width;
    image->start_x = Start_x;
    image->start_y = Start_y;
-   image->end_x = End_x;
-   image->end_y = End_y;
+   image->details_d = End_x;
+   image->details_e = End_y;
 }
 
 /**
@@ -327,8 +327,8 @@ void Rectangle_Draw(Graph_Data *image,char imagename[3],u32 Graph_Operate,u32 Gr
    image->width = Graph_Width;
    image->start_x = Start_x;
    image->start_y = Start_y;
-   image->end_x = End_x;
-   image->end_y = End_y;
+   image->details_d = End_x;
+   image->details_e = End_y;
 }
 
 /**
@@ -355,7 +355,7 @@ void Circle_Draw(Graph_Data *image,char imagename[3],u32 Graph_Operate,u32 Graph
    image->width = Graph_Width;
    image->start_x = Start_x;
    image->start_y = Start_y;
-   image->radius = Graph_Radius;
+   image->details_c = Graph_Radius;
 }
 
 /**
@@ -384,10 +384,10 @@ void Arc_Draw(Graph_Data *image,char imagename[3],u32 Graph_Operate,u32 Graph_La
    image->width = Graph_Width;
    image->start_x = Start_x;
    image->start_y = Start_y;
-   image->start_angle = Graph_StartAngle;
-   image->end_angle = Graph_EndAngle;
-   image->end_x = x_Length;
-   image->end_y = y_Length;
+   image->details_a = Graph_StartAngle;
+   image->details_b = Graph_EndAngle;
+   image->details_d = x_Length;
+   image->details_e = y_Length;
 }
 
 /**
@@ -417,12 +417,12 @@ void Float_Draw(Graph_Data *image,char imagename[3],u32 Graph_Operate,u32 Graph_
    image->width = Graph_Width;
    image->start_x = Start_x;
    image->start_y = Start_y;
-   image->start_angle = Graph_Size;
-   image->end_angle = Graph_Digit;
+   image->details_a = Graph_Size;
+   image->details_b = Graph_Digit;
    int32_t IntData = FloatData * 1000;
-   image->radius = (IntData & 0x000003ff) >>  0;
-   image->end_x = (IntData & 0x001ffc00) >> 10;
-   image->end_y = (IntData & 0xffe00000) >> 21;
+   image->details_c = (IntData & 0x000003ff) >>  0;
+   image->details_d = (IntData & 0x001ffc00) >> 10;
+   image->details_e = (IntData & 0xffe00000) >> 21;
 }
 
 /**
@@ -449,8 +449,8 @@ void Char_Draw(String_Data *image,char imagename[3],u32 Graph_Operate,u32 Graph_
 	image->Graph_Control.operate_tpye = Graph_Operate;
 	image->Graph_Control.layer = Graph_Layer;
 	image->Graph_Control.color = Graph_Color;
-   image->Graph_Control.start_angle = Graph_Size;
-	image->Graph_Control.end_angle = Graph_Digit;
+   image->Graph_Control.details_a = Graph_Size;
+	image->Graph_Control.details_b = Graph_Digit;
 	image->Graph_Control.width = Graph_Width;
 	image->Graph_Control.start_x = Start_x;
 	image->Graph_Control.start_y = Start_y;

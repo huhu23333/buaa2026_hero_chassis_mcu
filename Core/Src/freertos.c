@@ -205,8 +205,8 @@ void MX_FREERTOS_Init(void) {
     Task_SPI2MsgRecHandle = osThreadCreate(osThread(SPI2_ReceiveTask), NULL);
 		
 	/* definition and creation of vofa_Task */
-	  osThreadDef(VofaAssistTask, Vofa_Assist, osPriorityRealtime, 0, 128);
-    Task_VofaAssistHandle = osThreadCreate(osThread(VofaAssistTask), NULL);
+	  // osThreadDef(VofaAssistTask, Vofa_Assist, osPriorityRealtime, 0, 128);
+    // Task_VofaAssistHandle = osThreadCreate(osThread(VofaAssistTask), NULL);
 
   /* USER CODE END RTOS_THREADS */
 

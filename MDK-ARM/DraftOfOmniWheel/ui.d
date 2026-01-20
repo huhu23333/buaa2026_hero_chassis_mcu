@@ -10,7 +10,7 @@ draftofomniwheel\ui.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h
 draftofomniwheel\ui.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f4xx.h
 draftofomniwheel\ui.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/stm32f407xx.h
 draftofomniwheel\ui.o: ../Drivers/CMSIS/Include/core_cm4.h
-draftofomniwheel\ui.o: E:\ProgramFile\MDK\core\ARM\ARMCC\Bin\..\include\stdint.h
+draftofomniwheel\ui.o: G:\Software2\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdint.h
 draftofomniwheel\ui.o: ../Drivers/CMSIS/Include/cmsis_version.h
 draftofomniwheel\ui.o: ../Drivers/CMSIS/Include/cmsis_compiler.h
 draftofomniwheel\ui.o: ../Drivers/CMSIS/Include/cmsis_armcc.h
@@ -18,7 +18,7 @@ draftofomniwheel\ui.o: ../Drivers/CMSIS/Include/mpu_armv7.h
 draftofomniwheel\ui.o: ../Drivers/CMSIS/Device/ST/STM32F4xx/Include/system_stm32f4xx.h
 draftofomniwheel\ui.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h
 draftofomniwheel\ui.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy/stm32_hal_legacy.h
-draftofomniwheel\ui.o: E:\ProgramFile\MDK\core\ARM\ARMCC\Bin\..\include\stddef.h
+draftofomniwheel\ui.o: G:\Software2\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stddef.h
 draftofomniwheel\ui.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc_ex.h
 draftofomniwheel\ui.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio.h
 draftofomniwheel\ui.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_gpio_ex.h
@@ -38,9 +38,9 @@ draftofomniwheel\ui.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_spi.h
 draftofomniwheel\ui.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim.h
 draftofomniwheel\ui.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_tim_ex.h
 draftofomniwheel\ui.o: ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_uart.h
-draftofomniwheel\ui.o: E:\ProgramFile\MDK\core\ARM\ARMCC\Bin\..\include\string.h
-draftofomniwheel\ui.o: E:\ProgramFile\MDK\core\ARM\ARMCC\Bin\..\include\stdio.h
-draftofomniwheel\ui.o: E:\ProgramFile\MDK\core\ARM\ARMCC\Bin\..\include\math.h
+draftofomniwheel\ui.o: G:\Software2\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\string.h
+draftofomniwheel\ui.o: G:\Software2\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\stdio.h
+draftofomniwheel\ui.o: G:\Software2\Keil_v5\ARM\ARM_Compiler_5.06u7\Bin\..\include\math.h
 draftofomniwheel\ui.o: ../APPs/APPs.h/struct_typedef.h
 draftofomniwheel\ui.o: ../Algorithm/Algorithm.h/arm_math.h
 draftofomniwheel\ui.o: ../Drivers/CMSIS/Include/core_cm4.h

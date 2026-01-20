@@ -54,8 +54,8 @@ void Robot_UI(void const *argument)
 		//字符
 		if(UI_PushUp_Counter % 311 == 0 )
 		{
-			UI_FUN.Char_Draw(&UI_String1.String,"006",UI_Graph_Add, 3,UI_Color_Main ,30, sizeof(stringKeep) , 5,30 ,850 , stringKeep);
-			UI_PushUp_String(&UI_String1);
+			UI_FUN.Char_Draw(&UI_String1.String,"006",UI_Graph_Add, 3, UI_Color_Main ,30, sizeof(stringKeep) , 5,30 ,850 , stringKeep);
+			UI_FUN.UI_PushUp_String(&UI_String1);
 			continue;            //跳回循环最开始
 		}
 		
@@ -72,7 +72,7 @@ void Robot_UI(void const *argument)
 		{
       //电容电量 条：line 量：float
 			UI_FUN.Line_Draw(&UI_Graph7.imageData[0], "101", UI_Graph_Add, 1, UI_Color_Green, 30, 560, 150, 560, 150);
-      UI_FUN.Float_Draw(&UI_Graph7.imageData[1],"102", UI_Graph_Add, 1, UI_Color_White, 24, 2, 5, 1200, 200, 0.00);
+      UI_FUN.Float_Draw(&UI_Graph7.imageData[1],"102", UI_Graph_Add, 1, UI_Color_White, 24, 2, 5, 1200, 200, 1.00);
 			
 			//射击速度
 			UI_FUN.Float_Draw(&UI_Graph7.imageData[2],"103", UI_Graph_Add, 1, UI_Color_White, 20, 1, 5, 200, 850, ControlMes.shoot_Speed);

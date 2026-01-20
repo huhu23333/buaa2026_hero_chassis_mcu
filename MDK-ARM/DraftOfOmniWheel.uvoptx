@@ -103,7 +103,7 @@
         <bEvRecOn>1</bEvRecOn>
         <bSchkAxf>0</bSchkAxf>
         <bTchkAxf>0</bTchkAxf>
-        <nTsel>3</nTsel>
+        <nTsel>6</nTsel>
         <sDll></sDll>
         <sDllPa></sDllPa>
         <sDlgDll></sDlgDll>
@@ -114,13 +114,13 @@
         <tDlgDll></tDlgDll>
         <tDlgPa></tDlgPa>
         <tIfile></tIfile>
-        <pMon>BIN\CMSIS_AGDI.dll</pMon>
+        <pMon>STLink\ST-LINKIII-KEIL_SWO.dll</pMon>
       </DebugOpt>
       <TargetDriverDllRegistry>
         <SetRegEntry>
           <Number>0</Number>
           <Key>DLGUARM</Key>
-          <Name></Name>
+          <Name>(105=-1,-1,-1,-1,0)</Name>
         </SetRegEntry>
         <SetRegEntry>
           <Number>0</Number>
@@ -181,7 +181,7 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>1</BreakIfRCount>
-          <Filename>E:\rm task\test_file\Hero_Board2_C _26锛坱est锛塶\APPs\APPs.c\Cloud_Control.c</Filename>
+          <Filename>D:\Files\desktop\document-important\Transistor鎴橀槦\鐢垫帶\Hero_Board2_C _26\APPs\APPs.c\Cloud_Control.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression>\\DraftOfOmniWheel\../APPs/APPs.c/Cloud_Control.c\101</Expression>
         </Bp>
@@ -286,6 +286,16 @@
           <count>19</count>
           <WinNumber>1</WinNumber>
           <ItemText>M6020s_Yaw.realAngle,0x0A</ItemText>
+        </Ww>
+        <Ww>
+          <count>20</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>CAP_Ratio</ItemText>
+        </Ww>
+        <Ww>
+          <count>21</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>PowerRxData.capEnergy</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
