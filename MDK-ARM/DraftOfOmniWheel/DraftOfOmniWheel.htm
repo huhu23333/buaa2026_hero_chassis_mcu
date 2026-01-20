@@ -3,7 +3,7 @@
 <title>Static Call Graph - [DraftOfOmniWheel\DraftOfOmniWheel.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image DraftOfOmniWheel\DraftOfOmniWheel.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Tue Jan 20 20:27:53 2026
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Tue Jan 20 21:39:18 2026
 <BR><P>
 <H3>Maximum Stack Usage =        424 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1962,18 +1962,16 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> freertos.o(.constdata)
 </UL>
-<P><STRONG><a name="[8e]"></a>Robot_UI</STRONG> (Thumb, 174 bytes, Stack size 8 bytes, task_robotui.o(i.Robot_UI))
-<BR><BR>[Stack]<UL><LI>Max Depth = 280<LI>Call Chain = Robot_UI &rArr; UI_Draw_Dynamic_1 &rArr; __hardfp_sin &rArr; __ieee754_rem_pio2 &rArr; __aeabi_d2iz
+<P><STRONG><a name="[8e]"></a>Robot_UI</STRONG> (Thumb, 162 bytes, Stack size 0 bytes, task_robotui.o(i.Robot_UI))
+<BR><BR>[Stack]<UL><LI>Max Depth = 272<LI>Call Chain = Robot_UI &rArr; UI_Draw_Dynamic_1 &rArr; __hardfp_sin &rArr; __ieee754_rem_pio2 &rArr; __aeabi_d2iz
 </UL>
 <BR>[Calls]<UL><LI><a href="#[152]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
-<LI><a href="#[156]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Static_3
-<LI><a href="#[155]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Static_2
-<LI><a href="#[154]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Static_1
-<LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Dynamic_Init_1
-<LI><a href="#[153]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Dynamic_2
-<LI><a href="#[158]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Dynamic_1
-<LI><a href="#[14b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskGetTickCount
-<LI><a href="#[14c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelayUntil
+<LI><a href="#[155]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Static_3
+<LI><a href="#[154]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Static_2
+<LI><a href="#[153]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Static_1
+<LI><a href="#[156]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Dynamic_Init_1
+<LI><a href="#[158]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Dynamic_2
+<LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Dynamic_1
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> freertos.o(.constdata)
 </UL>
@@ -2048,7 +2046,7 @@ Global Symbols
 <LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_ReceiveToIdle_DMA
 </UL>
 
-<P><STRONG><a name="[158]"></a>UI_Draw_Dynamic_1</STRONG> (Thumb, 664 bytes, Stack size 88 bytes, task_robotui.o(i.UI_Draw_Dynamic_1))
+<P><STRONG><a name="[157]"></a>UI_Draw_Dynamic_1</STRONG> (Thumb, 664 bytes, Stack size 88 bytes, task_robotui.o(i.UI_Draw_Dynamic_1))
 <BR><BR>[Stack]<UL><LI>Max Depth = 272<LI>Call Chain = UI_Draw_Dynamic_1 &rArr; __hardfp_sin &rArr; __ieee754_rem_pio2 &rArr; __aeabi_d2iz
 </UL>
 <BR>[Calls]<UL><LI><a href="#[160]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sin
@@ -2061,13 +2059,13 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Robot_UI
 </UL>
 
-<P><STRONG><a name="[153]"></a>UI_Draw_Dynamic_2</STRONG> (Thumb, 126 bytes, Stack size 64 bytes, task_robotui.o(i.UI_Draw_Dynamic_2))
+<P><STRONG><a name="[158]"></a>UI_Draw_Dynamic_2</STRONG> (Thumb, 126 bytes, Stack size 64 bytes, task_robotui.o(i.UI_Draw_Dynamic_2))
 <BR><BR>[Stack]<UL><LI>Max Depth = 64<LI>Call Chain = UI_Draw_Dynamic_2
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Robot_UI
 </UL>
 
-<P><STRONG><a name="[157]"></a>UI_Draw_Dynamic_Init_1</STRONG> (Thumb, 404 bytes, Stack size 80 bytes, task_robotui.o(i.UI_Draw_Dynamic_Init_1))
+<P><STRONG><a name="[156]"></a>UI_Draw_Dynamic_Init_1</STRONG> (Thumb, 404 bytes, Stack size 80 bytes, task_robotui.o(i.UI_Draw_Dynamic_Init_1))
 <BR><BR>[Stack]<UL><LI>Max Depth = 264<LI>Call Chain = UI_Draw_Dynamic_Init_1 &rArr; __hardfp_sin &rArr; __ieee754_rem_pio2 &rArr; __aeabi_d2iz
 </UL>
 <BR>[Calls]<UL><LI><a href="#[160]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_sin
@@ -2079,19 +2077,19 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Robot_UI
 </UL>
 
-<P><STRONG><a name="[154]"></a>UI_Draw_Static_1</STRONG> (Thumb, 212 bytes, Stack size 40 bytes, task_robotui.o(i.UI_Draw_Static_1))
+<P><STRONG><a name="[153]"></a>UI_Draw_Static_1</STRONG> (Thumb, 212 bytes, Stack size 40 bytes, task_robotui.o(i.UI_Draw_Static_1))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = UI_Draw_Static_1
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Robot_UI
 </UL>
 
-<P><STRONG><a name="[155]"></a>UI_Draw_Static_2</STRONG> (Thumb, 212 bytes, Stack size 40 bytes, task_robotui.o(i.UI_Draw_Static_2))
+<P><STRONG><a name="[154]"></a>UI_Draw_Static_2</STRONG> (Thumb, 62 bytes, Stack size 40 bytes, task_robotui.o(i.UI_Draw_Static_2))
 <BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = UI_Draw_Static_2
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Robot_UI
 </UL>
 
-<P><STRONG><a name="[156]"></a>UI_Draw_Static_3</STRONG> (Thumb, 54 bytes, Stack size 32 bytes, task_robotui.o(i.UI_Draw_Static_3))
+<P><STRONG><a name="[155]"></a>UI_Draw_Static_3</STRONG> (Thumb, 54 bytes, Stack size 32 bytes, task_robotui.o(i.UI_Draw_Static_3))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = UI_Draw_Static_3
 </UL>
 <BR>[Called By]<UL><LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Robot_UI
@@ -2186,8 +2184,8 @@ Global Symbols
 <LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__set_errno
 <LI><a href="#[16c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dneg
 </UL>
-<BR>[Called By]<UL><LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Dynamic_Init_1
-<LI><a href="#[158]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Dynamic_1
+<BR>[Called By]<UL><LI><a href="#[156]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Dynamic_Init_1
+<LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Dynamic_1
 <LI><a href="#[182]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;v_cloud_convertto_chassis
 </UL>
 
@@ -2235,8 +2233,8 @@ Global Symbols
 <LI><a href="#[a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__set_errno
 <LI><a href="#[16c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_dneg
 </UL>
-<BR>[Called By]<UL><LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Dynamic_Init_1
-<LI><a href="#[158]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Dynamic_1
+<BR>[Called By]<UL><LI><a href="#[156]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Dynamic_Init_1
+<LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Dynamic_1
 <LI><a href="#[182]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;v_cloud_convertto_chassis
 </UL>
 
@@ -2647,7 +2645,6 @@ Global Symbols
 <LI><a href="#[18c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvAddCurrentTaskToDelayedList
 </UL>
 <BR>[Called By]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI2Receives
-<LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Robot_UI
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Robot_Control
 <LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Off_Line_Check
 </UL>
@@ -2865,7 +2862,6 @@ Global Symbols
 
 <P><STRONG><a name="[14b]"></a>xTaskGetTickCount</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, tasks.o(i.xTaskGetTickCount))
 <BR><BR>[Called By]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;SPI2Receives
-<LI><a href="#[8e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Robot_UI
 <LI><a href="#[8d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Robot_Control
 <LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Off_Line_Check
 <LI><a href="#[1a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvSampleTimeNow
@@ -2977,8 +2973,8 @@ Global Symbols
 <P><STRONG><a name="[161]"></a>__aeabi_dadd</STRONG> (Thumb, 0 bytes, Stack size 16 bytes, daddsub_clz.o(x$fpl$dadd))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = __aeabi_dadd
 </UL>
-<BR>[Called By]<UL><LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Dynamic_Init_1
-<LI><a href="#[158]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Dynamic_1
+<BR>[Called By]<UL><LI><a href="#[156]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Dynamic_Init_1
+<LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Dynamic_1
 <LI><a href="#[182]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;v_cloud_convertto_chassis
 <LI><a href="#[16a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__kernel_sin
 <LI><a href="#[169]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ieee754_rem_pio2
@@ -3031,8 +3027,8 @@ Global Symbols
 <P><STRONG><a name="[162]"></a>__aeabi_d2uiz</STRONG> (Thumb, 0 bytes, Stack size 32 bytes, dfixu.o(x$fpl$dfixu))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = __aeabi_d2uiz
 </UL>
-<BR>[Called By]<UL><LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Dynamic_Init_1
-<LI><a href="#[158]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Dynamic_1
+<BR>[Called By]<UL><LI><a href="#[156]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Dynamic_Init_1
+<LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Dynamic_1
 </UL>
 
 <P><STRONG><a name="[1ce]"></a>_dfixu</STRONG> (Thumb, 90 bytes, Stack size 32 bytes, dfixu.o(x$fpl$dfixu), UNUSED)
@@ -3072,8 +3068,8 @@ Global Symbols
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = __aeabi_dmul
 </UL>
 <BR>[Called By]<UL><LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DATA_Trans
-<LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Dynamic_Init_1
-<LI><a href="#[158]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Dynamic_1
+<LI><a href="#[156]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Dynamic_Init_1
+<LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Dynamic_1
 <LI><a href="#[182]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;v_cloud_convertto_chassis
 <LI><a href="#[16a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__kernel_sin
 <LI><a href="#[169]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__ieee754_rem_pio2
@@ -3163,7 +3159,7 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[14d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;angle_wrap
 <LI><a href="#[c4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;DATA_Trans
-<LI><a href="#[158]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Dynamic_1
+<LI><a href="#[157]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UI_Draw_Dynamic_1
 <LI><a href="#[182]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;v_cloud_convertto_chassis
 <LI><a href="#[17d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_follow_mode
 </UL>

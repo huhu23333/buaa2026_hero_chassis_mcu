@@ -27,7 +27,7 @@ void UI_Draw_Static_1() {
 }
 //字符
 void UI_Draw_Static_2() {
-	UI_FUN.Char_Draw(&UI_String1.String,"006",UI_Graph_Add, 3, UI_Color_Main ,30, sizeof(stringKeep) , 5,30 ,850 , stringKeep);
+	UI_FUN.Char_Draw(&UI_String1.String,"006",UI_Graph_Add, 3, UI_Color_Main, 24, sizeof(stringKeep) , 5,30 ,850 , stringKeep);
 	UI_FUN.UI_PushUp_String(&UI_String1);
 }
 void UI_Draw_Static_3() {
@@ -107,67 +107,42 @@ void UI_Draw_Dynamic_2() {
 	}
 }
 
-void Robot_UI(void const *argument)
-{
-		
-	static u16 UI_PushUp_Counter = 288;
-//   float Capacitance_X = 0;
-
+void Robot_UI(void const *argument) {
+	static u16 UI_PushUp_Counter = 0;
 	vTaskDelay(300);
 	TickType_t last_time;
     for (;;)
     {
-		last_time = xTaskGetTickCount();
-		vTaskDelayUntil(&last_time, pdMS_TO_TICKS(10));      //延时放在上面，是为了发送一次数据，立马延时，防止堵塞
-
-		UI_PushUp_Counter++;
-		 
-      //ID判断
-		if(UI_PushUp_Counter % 1000 == 0)
-		{
-			UI_FUN.ID_Judge();
-		}
-
-      //如果UI显示不完整可以考虑是不是占用了官方UI的位置导致的，换个位置试一试
-
-//静态UI------------------------------------------------------------------
-    	if(UI_PushUp_Counter % 301 == 0)
+		UI_FUN.ID_Judge();
+		vTaskDelay(pdMS_TO_TICKS(35));
+//静态UI及动态初始UI---------------------------------------------------------------------------------------------------------------------------
+    	if(UI_PushUp_Counter % 100 == 0)
 		{
 			UI_Draw_Static_1();
-			continue;            //跳回循环最开始
+			vTaskDelay(pdMS_TO_TICKS(35));
 		}
-
-		//字符
-		if(UI_PushUp_Counter % 311 == 0 )
+    	if(UI_PushUp_Counter % 100 == 1)
 		{
 			UI_Draw_Static_2();
-			continue;            //跳回循环最开始
+			vTaskDelay(pdMS_TO_TICKS(35));
 		}
-		
-		if(UI_PushUp_Counter % 321 == 0 )
+    	if(UI_PushUp_Counter % 100 == 2)
 		{
 			UI_Draw_Static_3();
-			continue;            //跳回循环最开始
+			vTaskDelay(pdMS_TO_TICKS(35));
 		}
-
-//动态初始UI---------------------------------------------------------
-    	if(UI_PushUp_Counter % 371 == 0)
+    	if(UI_PushUp_Counter % 100 == 3)
 		{
 			UI_Draw_Dynamic_Init_1();
-			continue;
+			vTaskDelay(pdMS_TO_TICKS(35));
 		}
-		
 //动态更新UI-----------------------------------------------------------------------------
-    	if(UI_PushUp_Counter % 21 == 0)
-		{
+		if (UI_PushUp_Counter % 10 == 0) {
 			UI_Draw_Dynamic_1();
-			continue;
 		}
-
-		if(UI_PushUp_Counter % 27 == 0)
-		{
+		if (UI_PushUp_Counter % 10 == 1) {
 			UI_Draw_Dynamic_2();
-			continue;
 		}
+		UI_PushUp_Counter++;
 	}
 }

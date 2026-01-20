@@ -2629,8 +2629,8 @@ I (../Devices/Devices.h/N100.h)(0x69205518)
 I (../Algorithm/Algorithm.h/Gimbal_Chassis_Pitch_Angle.h)(0x68C62466)
 I (../Devices/Devices.h/M3508_Motor.h)(0x692058B2)
 I (G:\Software2\Keil_v5\ARM\ARM_Compiler_5.06u7\include\stdarg.h)(0x5E8E3CC2)
-F (..\Tasks\Tasks.c\Task_RobotUI.c)(0x696F74AC)(--c99 -c --cpu Cortex-M4.fp.sp -g -O1 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Algorithm/Algorithm.h -I ../APPs/APPs.h -I ../BSP/BSP.h -I ../Devices/Devices.h -I ../Protocol/Protocol.h -I ../Tasks/Tasks.h -I ../Debug/TraceRecorder/include -I ../Debug/TraceRecorder/config -I ../DebugAssist/DebugAssist.h -I "..\Debug Assist\Debug Assist.h"-I.\RTE\_DraftOfOmniWheel-IG:\Software2\Arm\Packs\ARM\CMSIS\6.2.0\CMSIS\Core\Include-D__UVISION_VERSION="543" -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx -DARM_MATH_CM4 -D__TARGET_FPU_VFP -D__CC_ARM -DARM_MATH_CM4 -D__FPU_PRESENT="1U"-o draftofomniwheel\task_robotui.o --omf_browse draftofomniwheel\task_robotui.crf --depend draftofomniwheel\task_robotui.d)
-I (../Tasks/Tasks.h/Task_RobotUI.h)(0x68C62466)
+F (..\Tasks\Tasks.c\Task_RobotUI.c)(0x696F8564)(--c99 -c --cpu Cortex-M4.fp.sp -g -O1 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc -I ../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I ../Middlewares/Third_Party/FreeRTOS/Source/include -I ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I ../Middlewares/Third_Party/FreeRTOS/Source/portable/RVDS/ARM_CM4F -I ../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I ../Drivers/CMSIS/Include -I ../Algorithm/Algorithm.h -I ../APPs/APPs.h -I ../BSP/BSP.h -I ../Devices/Devices.h -I ../Protocol/Protocol.h -I ../Tasks/Tasks.h -I ../Debug/TraceRecorder/include -I ../Debug/TraceRecorder/config -I ../DebugAssist/DebugAssist.h -I "..\Debug Assist\Debug Assist.h"-I.\RTE\_DraftOfOmniWheel-IG:\Software2\Arm\Packs\ARM\CMSIS\6.2.0\CMSIS\Core\Include-D__UVISION_VERSION="543" -DSTM32F407xx -D_RTE_ -DUSE_HAL_DRIVER -DSTM32F407xx -DARM_MATH_CM4 -D__TARGET_FPU_VFP -D__CC_ARM -DARM_MATH_CM4 -D__FPU_PRESENT="1U"-o draftofomniwheel\task_robotui.o --omf_browse draftofomniwheel\task_robotui.crf --depend draftofomniwheel\task_robotui.d)
+I (../Tasks/Tasks.h/Task_RobotUI.h)(0x696F82DE)
 I (../Core/Inc/main.h)(0x68C62466)
 I (../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h)(0x68CE10B4)
 I (../Core/Inc/stm32f4xx_hal_conf.h)(0x68F4A352)
@@ -2940,7 +2940,7 @@ F (..\Tasks\Tasks.h\Task_CanSend.h)(0x68C62466)()
 F (..\Tasks\Tasks.h\Task_LED.h)(0x68C62466)()
 F (..\Tasks\Tasks.h\Task_RobotControl.h)(0x68C62466)()
 F (..\Tasks\Tasks.h\Task_UsartSend.h)(0x68C62466)()
-F (..\Tasks\Tasks.h\Task_RobotUI.h)(0x68C62466)()
+F (..\Tasks\Tasks.h\Task_RobotUI.h)(0x696F82DE)()
 F (..\Tasks\Tasks.h\Task_OffLineCheck.h)(0x68C62466)()
 F (..\Tasks\Tasks.h\Task_SPI2Receive.h)(0x68C62466)()
 F (..\Tasks\Tasks.h\Task_Vofa.h)(0x68C62466)()

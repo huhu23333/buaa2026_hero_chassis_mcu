@@ -30,4 +30,11 @@ extern UI_String_t UI_String4;
 extern UI_String_t UI_String5;
 extern UI_Delete_t UI_Delete;
 
+void UI_Draw_Static_1();
+void UI_Draw_Static_2();
+void UI_Draw_Static_3();
+void UI_Draw_Dynamic_Init_1();
+void UI_Draw_Dynamic_1();
+void UI_Draw_Dynamic_2();
+
 void Robot_UI(void const *argument);
