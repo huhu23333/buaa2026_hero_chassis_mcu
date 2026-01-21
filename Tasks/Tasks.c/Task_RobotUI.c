@@ -38,23 +38,46 @@ extern UI_Occupy_Data_t UI_Occupy_Data;
 
 #define UI_What_Can_I_Say
 
-void UI_Draw_Arrow(int32_t start_x, int32_t start_y, int32_t end_x, int32_t end_y, 
+void UI_Draw_Arrow(Graph_Data *draw_dst1, Graph_Data *draw_dst2, Graph_Data *draw_dst3, int32_t start_x, int32_t start_y, int32_t end_x, int32_t end_y, 
 				   int32_t arrow_head_length, int32_t arrow_head_width, 
 				   int8_t operate, int8_t layer, int16_t line_width, int8_t color, 
 				   char *imgname1, char *imgname2, char *imgname3) {
-	UI_FUN.Line_Draw(&UI_Graph5.imageData[0], imgname1, operate, layer, color, line_width, start_x, start_y, end_x, end_y);
+	UI_FUN.Line_Draw(draw_dst1, imgname1, operate, layer, color, line_width, start_x, start_y, end_x, end_y);
 	int32_t arrow_length = sqrt((end_x - start_x) * (end_x - start_x) + (end_y - start_y) * (end_y - start_y));
 	int32_t head_lenth_vector_x = (start_x - end_x) * arrow_head_length / arrow_length;
 	int32_t head_lenth_vector_y = (start_y - end_y) * arrow_head_length / arrow_length;
 	int32_t width_vector_x = (end_y - start_y) / 2 * arrow_head_width / arrow_length;
 	int32_t width_vector_y = (start_x - end_x) / 2 * arrow_head_width / arrow_length;
-	UI_FUN.Line_Draw(&UI_Graph5.imageData[1], imgname2, operate, layer, color, line_width, 
+	UI_FUN.Line_Draw(draw_dst2, imgname2, operate, layer, color, line_width, 
 					 end_x, end_y, end_x + head_lenth_vector_x + width_vector_x, end_y + head_lenth_vector_y + width_vector_y);
-	UI_FUN.Line_Draw(&UI_Graph5.imageData[2], imgname3, operate, layer, color, line_width, 
+	UI_FUN.Line_Draw(draw_dst3, imgname3, operate, layer, color, line_width, 
 					 end_x, end_y, end_x + head_lenth_vector_x - width_vector_x, end_y + head_lenth_vector_y - width_vector_y);
-	UI_Graph5.imageData[3].operate_tpye = 0;
-	UI_Graph5.imageData[4].operate_tpye = 0;
-	UI_FUN.UI_PushUp_Graphs(5, &UI_Graph5);
+}
+void UI_Draw_Rotate_Rectangle(Graph_Data *draw_dst1, Graph_Data *draw_dst2, Graph_Data *draw_dst3, Graph_Data *draw_dst4, 
+							  int32_t center_x, int32_t center_y, int32_t length, int32_t width, float rad, 
+							  int8_t operate, int8_t layer, int16_t line_width, int8_t color, 
+							  char *imgname1, char *imgname2, char *imgname3, char *imgname4) {
+    int32_t half_length = length / 2;
+    int32_t half_width = width / 2;
+    int32_t unrotated[4][2] = {
+        {half_length, half_width},
+        {-half_length, half_width},
+        {-half_length, -half_width},
+        {half_length, -half_width}
+    };
+    float cos_rad = cos(rad);
+    float sin_rad = sin(rad);
+	int32_t vertices[4][2];
+    for (int i = 0; i < 4; i++) {
+        int32_t x_rotated = unrotated[i][0] * cos_rad - unrotated[i][1] * sin_rad;
+        int32_t y_rotated = unrotated[i][0] * sin_rad + unrotated[i][1] * cos_rad;
+        vertices[i][0] = x_rotated + center_x;
+        vertices[i][1] = y_rotated + center_y;
+    }
+	UI_FUN.Line_Draw(draw_dst1, imgname1, operate, layer, color, line_width, vertices[0][0], vertices[0][1], vertices[1][0], vertices[1][1]);
+	UI_FUN.Line_Draw(draw_dst2, imgname2, operate, layer, color, line_width, vertices[1][0], vertices[1][1], vertices[2][0], vertices[2][1]);
+	UI_FUN.Line_Draw(draw_dst3, imgname3, operate, layer, color, line_width, vertices[2][0], vertices[2][1], vertices[3][0], vertices[3][1]);
+	UI_FUN.Line_Draw(draw_dst4, imgname4, operate, layer, color, line_width, vertices[3][0], vertices[3][1], vertices[0][0], vertices[0][1]);
 }
 
 //¾²Ì¬UI------------------------------------------------------------------
@@ -68,8 +91,9 @@ void UI_Draw_Init_1() {
 	UI_FUN.UI_PushUp_Graphs(5, &UI_Graph5);
 }
 void UI_Draw_Init_2() {
-	UI_FUN.Circle_Draw(&UI_Graph1.imageData[0],"007",UI_Graph_Add, 1, UI_Color_White, 3, 1600, 800, 100);
-	UI_FUN.UI_PushUp_Graphs(1, &UI_Graph1);
+	UI_FUN.Circle_Draw(&UI_Graph2.imageData[0],"007",UI_Graph_Add, 1, UI_Color_White, 3, 1600, 800, 100);
+	UI_FUN.Line_Draw(&UI_Graph2.imageData[1], "125", UI_Graph_Add, 4, UI_Color_White, 3, 960, 150, 960, 220);
+	UI_FUN.UI_PushUp_Graphs(2, &UI_Graph2);
 }
 //¶¯Ì¬³õÊ¼UI---------------------------------------------------------
 void UI_Draw_Init_3() {
@@ -153,7 +177,12 @@ void UI_Draw_Init_11() {
 }
 void UI_Draw_Init_12() {
 	UI_Hurt_Show_Time_Counter = 65535;
-	UI_Draw_Arrow(0,0,0,0,0,0, UI_Graph_Add, 4, 0, UI_Color_Pink, "117", "118", "119");
+	UI_Draw_Arrow(&UI_Graph7.imageData[0], &UI_Graph7.imageData[1], &UI_Graph7.imageData[2],0,0,0,0,0,0, UI_Graph_Add, 4, 0, UI_Color_Pink, "117", "118", "119");
+	// UI_Graph5.imageData[3].operate_tpye = 0;
+	// UI_Graph5.imageData[4].operate_tpye = 0;
+	UI_Draw_Rotate_Rectangle(&UI_Graph7.imageData[3], &UI_Graph7.imageData[4], &UI_Graph7.imageData[5], &UI_Graph7.imageData[6], 960, 150, 120, 60, 
+							 0.0, UI_Graph_Add, 4, 3, UI_Color_White, "121", "122", "123", "124");
+	UI_FUN.UI_PushUp_Graphs(7, &UI_Graph7);
 }
 #ifdef UI_What_Can_I_Say
 void UI_Draw_Init_WCIS() {
@@ -394,6 +423,7 @@ void UI_Draw_Update_9() {
 void UI_Draw_Update_10() {
 	static float32_t changeable_value_1_last = 0;
 	static uint8_t changeable_value_2_last = 0;
+	static float32_t changeable_value_3_last = 0;
 
 	uint8_t hurt_armor_id = UI_Hurt_Data.armor_id;
 	if (UI_Hurt_Data.is_new_received) {
@@ -410,7 +440,8 @@ void UI_Draw_Update_10() {
 
 	show_hurt_flag = 1;
 
-	float UI_Hurt_Angle = 2.0*PI*(float)M6020s_Yaw.realAngle/8192.0;
+	float UI_Chassis_Angle = 2.0*PI*(float)M6020s_Yaw.realAngle/8192.0;
+	float UI_Hurt_Angle = UI_Chassis_Angle;
 	switch (hurt_armor_id)
 	{
 		case 2:
@@ -431,10 +462,12 @@ void UI_Draw_Update_10() {
 	}
 	UI_Hurt_Angle = show_hurt_flag ? UI_Hurt_Angle : 0.0;
 	float32_t changeable_value_1 = UI_Hurt_Angle;
-	float32_t changeable_value_2 = show_hurt_flag;
+	uint8_t changeable_value_2 = show_hurt_flag;
+	float32_t changeable_value_3 = UI_Chassis_Angle + PI/2.0;
 	if (
 		changeable_value_1 == changeable_value_1_last &&
-		changeable_value_2 == changeable_value_2_last
+		changeable_value_2 == changeable_value_2_last &&
+		changeable_value_3 == changeable_value_3_last
 	) {
 		if ((UI_PushUp_Counter_Dynamic + 1) % UI_Dynamic_Max_Num != 0) {
 			UI_PushUp_Counter_Dynamic += 1;
@@ -442,15 +475,20 @@ void UI_Draw_Update_10() {
 	} else {
 		changeable_value_1_last = changeable_value_1;
 		changeable_value_2_last = changeable_value_2;
-		{
-			UI_Draw_Arrow(
-				960 +cos(changeable_value_1)*300, 
-				540 +sin(changeable_value_1)*300,
-				960 +cos(changeable_value_1)*400, 
-				540 +sin(changeable_value_1)*400,
-				40,40, 
-				UI_Graph_Change, 4, show_hurt_flag ? 5 : 0, UI_Color_Pink, "117", "118", "119");
-		}
+		changeable_value_3_last = changeable_value_3;
+	
+		UI_Draw_Arrow(&UI_Graph7.imageData[0], &UI_Graph7.imageData[1], &UI_Graph7.imageData[2],
+			960 +cos(changeable_value_1)*300, 
+			540 +sin(changeable_value_1)*300,
+			960 +cos(changeable_value_1)*400, 
+			540 +sin(changeable_value_1)*400,
+			40,40, 
+			UI_Graph_Change, 4, show_hurt_flag ? 5 : 0, UI_Color_Pink, "117", "118", "119");
+		// UI_Graph5.imageData[3].operate_tpye = 0;
+		// UI_Graph5.imageData[4].operate_tpye = 0;
+		UI_Draw_Rotate_Rectangle(&UI_Graph7.imageData[3], &UI_Graph7.imageData[4], &UI_Graph7.imageData[5], &UI_Graph7.imageData[6], 960, 150, 120, 60, 
+								 changeable_value_3, UI_Graph_Change, 4, 3, UI_Color_White, "121", "122", "123", "124");
+		UI_FUN.UI_PushUp_Graphs(7, &UI_Graph7);
 	}
 }
 #ifdef UI_What_Can_I_Say
