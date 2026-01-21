@@ -12,12 +12,12 @@
 #include "Task_RobotUI.h"
 #include "PowerControl.h"
 float CAP_Ratio =0.00;
-char stringWarning[]={"Warning"};
 uint16_t UI_Hurt_Show_Time_Counter = 0;
 uint16_t UI_PushUp_Counter_Dynamic = 0;
 uint16_t UI_PushUp_Counter_Static = 0;
 
 extern UI_Hurt_Data_t UI_Hurt_Data;
+extern UI_Occupy_Data_t UI_Occupy_Data;
 
 #define UI_Dynamic_Max_Num 		12
 #define UI_Static_Max_Num 		100
@@ -29,6 +29,14 @@ extern UI_Hurt_Data_t UI_Hurt_Data;
 #define UI_Line_Spacing_1 		30
 #define UI_Font_Size_1 			18
 #define UI_Line_Width_1 		2
+
+#define UI_Init_X_2				1460
+#define UI_Init_Y_2				680
+#define UI_Line_Spacing_2 		30
+#define UI_Font_Size_2 			18
+#define UI_Line_Width_2 		2
+
+#define UI_What_Can_I_Say
 
 void UI_Draw_Arrow(int32_t start_x, int32_t start_y, int32_t end_x, int32_t end_y, 
 				   int32_t arrow_head_length, int32_t arrow_head_width, 
@@ -145,9 +153,40 @@ void UI_Draw_Init_11() {
 }
 void UI_Draw_Init_12() {
 	UI_Hurt_Show_Time_Counter = 65535;
-	UI_Draw_Arrow(0,0,0,0,0,0, UI_Graph_Add, 4, 0, UI_Color_Black, "117", "118", "119");
+	UI_Draw_Arrow(0,0,0,0,0,0, UI_Graph_Add, 4, 0, UI_Color_Pink, "117", "118", "119");
 }
-
+#ifdef UI_What_Can_I_Say
+void UI_Draw_Init_WCIS() {
+	UI_FUN.Char_Draw(&UI_String1.String, "MAN", UI_Graph_Add, 3, UI_Color_Cyan, 36, 1, 
+					  3, 700, 300, "");
+	UI_FUN.UI_PushUp_String(&UI_String1);
+}
+#endif
+void UI_Draw_Init_UL_Center() {
+	switch (UI_Occupy_Data.status_UL)
+	{
+		case 0:
+			UI_FUN.Char_Draw(&UI_String1.String,"120", UI_Graph_Add, 3, UI_Color_White, UI_Font_Size_2, 19, 
+							 UI_Line_Width_2, UI_Init_X_2, UI_Init_Y_2 - UI_Line_Spacing_2 * 0, "Center: Unoccupied");
+			break;
+		case 1:
+			UI_FUN.Char_Draw(&UI_String1.String,"120", UI_Graph_Add, 3, UI_Color_Green, UI_Font_Size_2, 29, 
+							 UI_Line_Width_2, UI_Init_X_2, UI_Init_Y_2 - UI_Line_Spacing_2 * 0, "Center: Occupied by Own Side");
+			break;
+		case 2:
+			UI_FUN.Char_Draw(&UI_String1.String,"120", UI_Graph_Add, 3, UI_Color_Purplish_red, UI_Font_Size_2, 29, 
+							 UI_Line_Width_2, UI_Init_X_2, UI_Init_Y_2 - UI_Line_Spacing_2 * 0, "Center: Occupied by Opposite");
+			break;
+		case 3:
+			UI_FUN.Char_Draw(&UI_String1.String,"120", UI_Graph_Add, 3, UI_Color_Yellow, UI_Font_Size_2, 30, 
+							 UI_Line_Width_2, UI_Init_X_2, UI_Init_Y_2 - UI_Line_Spacing_2 * 0, "Center: Occupied by Both Side");
+			break;
+		
+		default:
+			break;
+	}
+	UI_FUN.UI_PushUp_String(&UI_String1);
+}
 //动态更新UI-----------------------------------------------------------------------------
 void UI_Draw_Update_1() {
 	//方向+超电
@@ -178,10 +217,10 @@ void UI_Draw_Update_1() {
 	}
 }
 void UI_Draw_Update_2() {
-	static float changeable_value_1_last = 0;
+	static uint8_t changeable_value_1_last = 0;
 
 	CAP_Ratio = ((float)PowerRxData.capEnergy) * 1.0f/255.0f;
-	float changeable_value_1 = CAP_Ratio;
+	uint8_t changeable_value_1 = CAP_Ratio <= 0.5;
 	if (
 		changeable_value_1 == changeable_value_1_last
 	) {
@@ -190,14 +229,14 @@ void UI_Draw_Update_2() {
 		}
 	} else {
 		changeable_value_1_last = changeable_value_1;
-		if(changeable_value_1 <= 0.5)
+		if(changeable_value_1)
 		{
-			UI_FUN.Char_Draw(&UI_String2.String,"404",UI_Graph_Add, 3,UI_Color_Main ,24, sizeof(stringWarning) , 4 ,900 , 700 , stringWarning);
+			UI_FUN.Char_Draw(&UI_String2.String,"404",UI_Graph_Add, 3, UI_Color_Main, 24, 8, 4, 900, 700, "Warning");
 			UI_FUN.UI_PushUp_String(&UI_String2);
 		}
 		else
 		{
-			UI_FUN.Char_Draw(&UI_String2.String,"404",UI_Graph_Del, 3,UI_Color_Main ,24, sizeof(stringWarning) , 4 ,900 , 700 , stringWarning);
+			UI_FUN.Char_Draw(&UI_String2.String,"404",UI_Graph_Del, 3, UI_Color_Main, 24, 1, 4, 900, 700, "");
 			UI_FUN.UI_PushUp_String(&UI_String2);
 		}
 	}
@@ -368,6 +407,9 @@ void UI_Draw_Update_10() {
 	} else {
 		show_hurt_flag = 1;
 	}
+
+	show_hurt_flag = 1;
+
 	float UI_Hurt_Angle = 2.0*PI*(float)M6020s_Yaw.realAngle/8192.0;
 	switch (hurt_armor_id)
 	{
@@ -402,16 +444,76 @@ void UI_Draw_Update_10() {
 		changeable_value_2_last = changeable_value_2;
 		{
 			UI_Draw_Arrow(
-				960 +cos(changeable_value_1)*200, 
-				540 +sin(changeable_value_1)*200,
+				960 +cos(changeable_value_1)*300, 
+				540 +sin(changeable_value_1)*300,
 				960 +cos(changeable_value_1)*400, 
 				540 +sin(changeable_value_1)*400,
-				60,60, 
-				UI_Graph_Change, 4, show_hurt_flag ? 2 : 0, UI_Color_Black, "117", "118", "119");
+				40,40, 
+				UI_Graph_Change, 4, show_hurt_flag ? 5 : 0, UI_Color_Pink, "117", "118", "119");
 		}
 	}
 }
+#ifdef UI_What_Can_I_Say
+void UI_Draw_Update_WCIS() {
+	static uint8_t changeable_value_1_last = 0;
 
+	uint8_t changeable_value_1 = g_referee.robot_status_.current_HP == 0;
+	if (
+		changeable_value_1 == changeable_value_1_last
+	) {
+		if ((UI_PushUp_Counter_Dynamic + 1) % UI_Dynamic_Max_Num != 0) {
+			UI_PushUp_Counter_Dynamic += 1;
+		}
+	} else {
+		changeable_value_1_last = changeable_value_1;
+		if (changeable_value_1) {
+			UI_FUN.Char_Draw(&UI_String1.String, "MAN", UI_Graph_Change, 3, UI_Color_Cyan, 36, 15, 
+							 3, 720, 300, "What Can I Say");
+		} else {
+			UI_FUN.Char_Draw(&UI_String1.String, "MAN", UI_Graph_Change, 3, UI_Color_Cyan, 36, 1, 
+							 3, 700, 300, "");
+		}
+		UI_FUN.UI_PushUp_String(&UI_String1);
+	}
+}
+#endif
+void UI_Draw_Update_UL_Center() {
+	static uint8_t changeable_value_1_last = 0;
+
+	uint8_t changeable_value_1 = UI_Occupy_Data.status_UL;
+	if (
+		changeable_value_1 == changeable_value_1_last
+	) {
+		if ((UI_PushUp_Counter_Dynamic + 1) % UI_Dynamic_Max_Num != 0) {
+			UI_PushUp_Counter_Dynamic += 1;
+		}
+	} else {
+		changeable_value_1_last = changeable_value_1;
+		switch (changeable_value_1)
+		{
+			case 0:
+				UI_FUN.Char_Draw(&UI_String1.String,"120", UI_Graph_Change, 3, UI_Color_White, UI_Font_Size_2, 19, 
+								UI_Line_Width_2, UI_Init_X_2, UI_Init_Y_2 - UI_Line_Spacing_2 * 0, "Center: Unoccupied");
+				break;
+			case 1:
+				UI_FUN.Char_Draw(&UI_String1.String,"120", UI_Graph_Change, 3, UI_Color_Green, UI_Font_Size_2, 29, 
+								UI_Line_Width_2, UI_Init_X_2, UI_Init_Y_2 - UI_Line_Spacing_2 * 0, "Center: Occupied by Own Side");
+				break;
+			case 2:
+				UI_FUN.Char_Draw(&UI_String1.String,"120", UI_Graph_Change, 3, UI_Color_Purplish_red, UI_Font_Size_2, 29, 
+								UI_Line_Width_2, UI_Init_X_2, UI_Init_Y_2 - UI_Line_Spacing_2 * 0, "Center: Occupied by Opposite");
+				break;
+			case 3:
+				UI_FUN.Char_Draw(&UI_String1.String,"120", UI_Graph_Change, 3, UI_Color_Yellow, UI_Font_Size_2, 30, 
+								UI_Line_Width_2, UI_Init_X_2, UI_Init_Y_2 - UI_Line_Spacing_2 * 0, "Center: Occupied by Both Side");
+				break;
+			
+			default:
+				break;
+		}
+		UI_FUN.UI_PushUp_String(&UI_String1);
+	}
+}
 
 void Robot_UI(void const *argument) {
 	vTaskDelay(300);
@@ -460,6 +562,14 @@ void Robot_UI(void const *argument) {
 			case 11:
 				UI_Draw_Init_12();
 				break;
+#ifdef UI_What_Can_I_Say
+			case 12:
+				UI_Draw_Init_WCIS();
+				break;
+#endif
+			case 13:
+				UI_Draw_Init_UL_Center();
+				break;
 		
 			default:
 				extra_delay_flag = 0;
@@ -499,6 +609,14 @@ void Robot_UI(void const *argument) {
 		}
 		if (UI_PushUp_Counter_Dynamic % UI_Dynamic_Max_Num == 9) {
 			UI_Draw_Update_10();
+		}
+#ifdef UI_What_Can_I_Say
+		if (UI_PushUp_Counter_Dynamic % UI_Dynamic_Max_Num == 10) {
+			UI_Draw_Update_WCIS();
+		}
+#endif
+		if (UI_PushUp_Counter_Dynamic % UI_Dynamic_Max_Num == 11) {
+			UI_Draw_Update_UL_Center();
 		}
 		UI_PushUp_Counter_Dynamic++;
 		UI_PushUp_Counter_Static++;

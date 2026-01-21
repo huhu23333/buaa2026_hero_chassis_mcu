@@ -330,5 +330,10 @@ typedef struct {
     uint8_t reason;
 } UI_Hurt_Data_t;
 
+typedef struct {
+    uint8_t status_UL;
+} UI_Occupy_Data_t;
+
+
 #endif
 
