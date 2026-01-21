@@ -193,7 +193,7 @@ void MX_FREERTOS_Init(void) {
     Robot_Control_Handle = osThreadCreate(osThread(Robot_Control_Task), NULL);
 	
 	/* definition and creation of Robot_Control_Task */
-    osThreadDef(Robot_UI_Task, Robot_UI, osPriorityHigh, 0, 128);
+    osThreadDef(Robot_UI_Task, Robot_UI, osPriorityHigh, 0, 256);
     Robot_UI_Handle = osThreadCreate(osThread(Robot_UI_Task), NULL);		
 		
 	/* definition and creation of Task_OffLineCheck_Handle */

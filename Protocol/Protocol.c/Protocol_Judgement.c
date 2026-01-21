@@ -241,9 +241,9 @@ void Judge_GetMessage(uint8_t* judge_buf){
 
                 case ID_ROBOT_STATUS:
                     memcpy(&g_referee.robot_status_, ptrSrc, sizeof(g_referee.robot_status_));
-										if (g_referee.robot_status_.robot_id < 100)
+										if (g_referee.robot_status_.robot_id < 100) // 红方
 											ControlMes.tnndcolor = 1;															//己方ID
-										else if(g_referee.robot_status_.robot_id > 100)
+										else if(g_referee.robot_status_.robot_id > 100) // 蓝方
 											ControlMes.tnndcolor = 0;
 								//		PowerControl_Data.Power_Limit = g_referee.robot_status_.chassis_power_limit;
 										ControlMes.Blood_Volume = g_referee.robot_status_.current_HP;

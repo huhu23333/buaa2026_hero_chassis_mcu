@@ -132,6 +132,7 @@ void Line_Draw(Graph_Data *image,char imagename[3],u32 Graph_Operate,u32 Graph_L
    int i;
    for(i=0;i<3&&imagename[i]!=NULL;i++)
    image->graphic_name[2-i]=imagename[i];
+   image->graphic_tpye = UI_Graph_Line;
    image->operate_tpye = Graph_Operate;
    image->layer = Graph_Layer;
    image->color = Graph_Color;
@@ -293,7 +294,7 @@ void Char_Draw(String_Data *image,char imagename[3],u32 Graph_Operate,u32 Graph_
 	image->Graph_Control.width = Graph_Width;
 	image->Graph_Control.start_x = Start_x;
 	image->Graph_Control.start_y = Start_y;
-   
+   memset(image->show_Data, 0, 30);
 	for(i=0;i<Graph_Digit;i++)
 	{
 	  image->show_Data[i]=*Char_Data;
