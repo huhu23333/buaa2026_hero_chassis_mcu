@@ -15,11 +15,32 @@ float CAP_Ratio =0.00;
 char stringWarning[]={"Warning"};
 uint16_t UI_Hurt_Show_Time_Counter = 0;
 
+#define  UI_Hurt_Show_Time_MS 	3000
+
 #define UI_Init_X_1				30
 #define UI_Init_Y_1				850
 #define UI_Line_Spacing_1 		30
 #define UI_Font_Size_1 			18
 #define UI_Line_Width_1 		2
+
+void UI_Draw_Arrow(int32_t start_x, int32_t start_y, int32_t end_x, int32_t end_y, 
+				   int32_t arrow_head_length, int32_t arrow_head_width, 
+				   int8_t operate, int8_t layer, int16_t line_width, int8_t color, 
+				   char *imgname1, char *imgname2, char *imgname3) {
+	UI_FUN.Line_Draw(&UI_Graph5.imageData[0], imgname1, operate, layer, color, line_width, start_x, start_y, end_x, end_y);
+	int32_t arrow_length = sqrt((end_x - start_x) * (end_x - start_x) + (end_y - start_y) * (end_y - start_y));
+	int32_t head_lenth_vector_x = (start_x - end_x) * arrow_head_length / arrow_length;
+	int32_t head_lenth_vector_y = (start_y - end_y) * arrow_head_length / arrow_length;
+	int32_t width_vector_x = (end_y - start_y) / 2 * arrow_head_width / arrow_length;
+	int32_t width_vector_y = (start_x - end_x) / 2 * arrow_head_width / arrow_length;
+	UI_FUN.Line_Draw(&UI_Graph5.imageData[1], imgname2, operate, layer, color, line_width, 
+					 end_x, end_y, end_x + head_lenth_vector_x + width_vector_x, end_y + head_lenth_vector_y + width_vector_y);
+	UI_FUN.Line_Draw(&UI_Graph5.imageData[2], imgname3, operate, layer, color, line_width, 
+					 end_x, end_y, end_x + head_lenth_vector_x - width_vector_x, end_y + head_lenth_vector_y - width_vector_y);
+	UI_Graph5.imageData[3].operate_tpye = 0;
+	UI_Graph5.imageData[4].operate_tpye = 0;
+	UI_FUN.UI_PushUp_Graphs(5, &UI_Graph5);
+}
 
 //静态UI------------------------------------------------------------------
 //弹道
@@ -115,12 +136,19 @@ void UI_Draw_Init_11() {
 					 UI_Init_X_1 + 6 , UI_Init_Y_1 - (int)((float)UI_Line_Spacing_1 * 7.5), UI_Init_X_1 + (int)(6.0 + (494.0 - 6.0) * CAP_Ratio), UI_Init_Y_1 - (int)((float)UI_Line_Spacing_1 * 7.5));
 	UI_FUN.UI_PushUp_Graphs(2, &UI_Graph2);
 }
+void UI_Draw_Init_12() {
+	UI_Hurt_Show_Time_Counter = 65535;
+	UI_Draw_Arrow(0,0,0,0,0,0, UI_Graph_Add, 4, 0, UI_Color_Black, "117", "118", "119");
+}
 
 //动态更新UI-----------------------------------------------------------------------------
 void UI_Draw_Update_1() {
 	//方向
-	UI_FUN.Line_Draw(&UI_Graph1.imageData[0], "107", UI_Graph_Change, 1, UI_Color_Green, 5, 1600, 800, 1600+cos(2*PI*M6020s_Yaw.realAngle/8192 - PI/4)*100, 800+sin(2*PI*M6020s_Yaw.realAngle/8192 - PI/4)*100);
-	UI_FUN.UI_PushUp_Graphs(1, &UI_Graph1);
+	UI_FUN.Line_Draw(&UI_Graph2.imageData[0], "107", UI_Graph_Change, 1, UI_Color_Green, 5, 1600, 800, 1600+cos(2*PI*M6020s_Yaw.realAngle/8192 - PI/4)*100, 800+sin(2*PI*M6020s_Yaw.realAngle/8192 - PI/4)*100);
+	CAP_Ratio = ((float)PowerRxData.capEnergy) * 1.0f/255.0f;
+	UI_FUN.Line_Draw(&UI_Graph2.imageData[1], "116", UI_Graph_Change, 1, UI_Color_Orange, 20,
+					 UI_Init_X_1 + 6 , UI_Init_Y_1 - (int)((float)UI_Line_Spacing_1 * 7.5), UI_Init_X_1 + (int)(6.0 + (494.0 - 6.0) * CAP_Ratio), UI_Init_Y_1 - (int)((float)UI_Line_Spacing_1 * 7.5));
+	UI_FUN.UI_PushUp_Graphs(2, &UI_Graph2);
 }
 void UI_Draw_Update_2() {
 	if(CAP_Ratio <= 0.5)
@@ -200,10 +228,21 @@ void UI_Draw_Update_9() {
 	UI_FUN.UI_PushUp_String(&UI_String1);
 }
 void UI_Draw_Update_10() {
-	CAP_Ratio = ((float)PowerRxData.capEnergy) * 1.0f/255.0f;
-	UI_FUN.Line_Draw(&UI_Graph1.imageData[0], "116", UI_Graph_Change, 1, UI_Color_Orange, 20,
-					 UI_Init_X_1 + 6 , UI_Init_Y_1 - (int)((float)UI_Line_Spacing_1 * 7.5), UI_Init_X_1 + (int)(6.0 + (494.0 - 6.0) * CAP_Ratio), UI_Init_Y_1 - (int)((float)UI_Line_Spacing_1 * 7.5));
-	UI_FUN.UI_PushUp_Graphs(1, &UI_Graph1);
+	if (UI_Hurt_Show_Time_Counter * 35 > UI_Hurt_Show_Time_MS) {
+		UI_Hurt_Show_Time_Counter = UI_Hurt_Show_Time_MS / 35 + 1;
+	} else {
+
+	}
+	{
+		float UI_Hurt_Angle = 2.0*PI*(float)M6020s_Yaw.realAngle/8192.0 + PI/2.0*(float)g_referee.hurt_data_.armor_id;
+		UI_Draw_Arrow(
+			960 +cos(UI_Hurt_Angle)*200, 
+			540 +sin(UI_Hurt_Angle)*200,
+			960 +cos(UI_Hurt_Angle)*400, 
+			540 +sin(UI_Hurt_Angle)*400,
+			60,60, 
+			UI_Graph_Change, 4, 2, UI_Color_Black, "117", "118", "119");
+	}
 }
 
 
@@ -271,6 +310,11 @@ void Robot_UI(void const *argument) {
 				break;
 			case 10:
 				UI_Draw_Init_11();
+				vTaskDelay(pdMS_TO_TICKS(35));
+				UI_Hurt_Show_Time_Counter += 1;
+				break;
+			case 11:
+				UI_Draw_Init_12();
 				vTaskDelay(pdMS_TO_TICKS(35));
 				UI_Hurt_Show_Time_Counter += 1;
 				break;

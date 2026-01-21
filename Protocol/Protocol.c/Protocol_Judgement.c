@@ -171,7 +171,7 @@
         pchMessage[dwLength - 1] = (uint8_t)((wCRC >> 8) & 0x00ff);
     }
 /*************************************2025赛季裁判系统*********************************************/
-uint8_t JudgeSystem_rxBuff[JUDGESYSTEM_PACKSIZE]; //接收buff
+uint8_t JudgeSystem_rxBuff[JUDGESYSTEM_BUFFSIZE]; //接收buff
 Referee_t g_referee;
 
 static void Judge_GetMessage(uint8_t* judge_buf);
@@ -179,14 +179,15 @@ static void Judge_GetMessage(uint8_t* judge_buf);
 void JudgeSystem_USART_Receive_DMA(UART_HandleTypeDef *huartx)
 {
 
-    HAL_UARTEx_ReceiveToIdle_DMA(huartx, JudgeSystem_rxBuff, JUDGESYSTEM_PACKSIZE);
+    HAL_UARTEx_ReceiveToIdle_DMA(huartx, JudgeSystem_rxBuff, JUDGESYSTEM_BUFFSIZE);
 //    __HAL_DMA_DISABLE_IT(huartx->hdmarx, DMA_IT_HT);
 }
 
 void JudgeSystem_Handler(UART_HandleTypeDef *huart)
 {
     Judge_GetMessage(JudgeSystem_rxBuff);
-    HAL_UARTEx_ReceiveToIdle_DMA(huart, JudgeSystem_rxBuff, JUDGESYSTEM_PACKSIZE);
+    memset(JudgeSystem_rxBuff, 0, JUDGESYSTEM_BUFFSIZE);
+    HAL_UARTEx_ReceiveToIdle_DMA(huart, JudgeSystem_rxBuff, JUDGESYSTEM_BUFFSIZE);
 //    __HAL_DMA_DISABLE_IT(huart->hdmarx, DMA_IT_HT);
 }
 
@@ -196,124 +197,121 @@ void JudgeSystem_Handler(UART_HandleTypeDef *huart)
  ** @param  Data_Length 	获取到的数据长度          **
  ** **************************************************
  */
-void Judge_GetMessage(uint8_t* judge_buf){
-
-    if (judge_buf == NULL)
-    {
-        return;
-    }
-    memcpy(&g_referee.header_, judge_buf, sizeof(g_referee.header_));
-    if (g_referee.header_.SOF == 0xA5)
-    {
-        if (Verify_CRC8_Check_Sum(judge_buf, sizeof(g_referee.header_)) == 1)
+void Judge_GetMessage(uint8_t* judge_buf) {
+    uint8_t* init_judge_buf = judge_buf;
+    while (judge_buf < init_judge_buf + JUDGESYSTEM_BUFFSIZE - 9) {
+        if (judge_buf[0] == 0xA5)
         {
-            uint32_t judgeLen = g_referee.header_.DataLength + sizeof(g_referee.header_) + 2 + 2;
-            if (Verify_CRC16_Check_Sum((judge_buf), judgeLen) == 1)
+            memcpy(&g_referee.header_, judge_buf, sizeof(g_referee.header_));
+            if (Verify_CRC8_Check_Sum(judge_buf, sizeof(g_referee.header_)) == 1)
             {
-                g_referee.cmdID_ = (judge_buf[6] << 8 | judge_buf[5]);
-                uint8_t* ptrSrc = (judge_buf + 7);
-                switch (g_referee.cmdID_)
+                uint32_t judgeLen = g_referee.header_.DataLength + sizeof(g_referee.header_) + 2 + 2;
+                if (judge_buf + judgeLen > init_judge_buf + JUDGESYSTEM_BUFFSIZE) {
+                    break;
+                }
+                if (Verify_CRC16_Check_Sum((judge_buf), judgeLen) == 1)
                 {
-                case ID_GAME_STATUS:
-                    memcpy(&g_referee.game_status_, ptrSrc, sizeof(g_referee.game_status_));
-										if(g_referee.game_status_.game_progress == 0)ControlMes.game_start = 0;
-					          else ControlMes.game_start = 1;
-                    break;
+                    g_referee.cmdID_ = (judge_buf[6] << 8 | judge_buf[5]);
+                    uint8_t* ptrSrc = (judge_buf + 7);
+                    switch (g_referee.cmdID_)
+                    {
+                        case ID_GAME_STATUS:
+                            memcpy(&g_referee.game_status_, ptrSrc, sizeof(g_referee.game_status_));
+                                                if(g_referee.game_status_.game_progress == 0)ControlMes.game_start = 0;
+                                    else ControlMes.game_start = 1;
+                            break;
 
-                case ID_GAME_RESULT:
-                    memcpy(&g_referee.game_result_, ptrSrc, sizeof(g_referee.game_result_));
-                    break;
-                case ID_GAME_ROBOT_HP:
-                    memcpy(&g_referee.game_robot_HP_, ptrSrc, sizeof(g_referee.game_robot_HP_));
-                    break;
+                        case ID_GAME_RESULT:
+                            memcpy(&g_referee.game_result_, ptrSrc, sizeof(g_referee.game_result_));
+                            break;
+                        case ID_GAME_ROBOT_HP:
+                            memcpy(&g_referee.game_robot_HP_, ptrSrc, sizeof(g_referee.game_robot_HP_));
+                            break;
 
-                case ID_EVENT_DATA:
-                    memcpy(&g_referee.event_data_, ptrSrc, sizeof(g_referee.event_data_));
-                    break;
+                        case ID_EVENT_DATA:
+                            memcpy(&g_referee.event_data_, ptrSrc, sizeof(g_referee.event_data_));
+                            break;
 
-                case ID_REFEREE_WARNING:
-                    memcpy(&g_referee.referee_warning_, ptrSrc, sizeof(g_referee.referee_warning_));
-                    break;
+                        case ID_REFEREE_WARNING:
+                            memcpy(&g_referee.referee_warning_, ptrSrc, sizeof(g_referee.referee_warning_));
+                            break;
 
-                case ID_DART_INFO:
-                    memcpy(&g_referee.dart_info_, ptrSrc, sizeof(g_referee.dart_info_));
-                    break;
+                        case ID_DART_INFO:
+                            memcpy(&g_referee.dart_info_, ptrSrc, sizeof(g_referee.dart_info_));
+                            break;
 
-                case ID_ROBOT_STATUS:
-                    memcpy(&g_referee.robot_status_, ptrSrc, sizeof(g_referee.robot_status_));
-										if (g_referee.robot_status_.robot_id < 100) // 红方
-											ControlMes.tnndcolor = 1;															//己方ID
-										else if(g_referee.robot_status_.robot_id > 100) // 蓝方
-											ControlMes.tnndcolor = 0;
-								//		PowerControl_Data.Power_Limit = g_referee.robot_status_.chassis_power_limit;
-										ControlMes.Blood_Volume = g_referee.robot_status_.current_HP;
-                    break;
+                        case ID_ROBOT_STATUS:
+                            memcpy(&g_referee.robot_status_, ptrSrc, sizeof(g_referee.robot_status_));
+                                                if (g_referee.robot_status_.robot_id < 100) // 红方
+                                                    ControlMes.tnndcolor = 1;															//己方ID
+                                                else if(g_referee.robot_status_.robot_id > 100) // 蓝方
+                                                    ControlMes.tnndcolor = 0;
+                                        //		PowerControl_Data.Power_Limit = g_referee.robot_status_.chassis_power_limit;
+                                                ControlMes.Blood_Volume = g_referee.robot_status_.current_HP;
+                            break;
 
-                case ID_POWER_HEAT_DATA:
-                    memcpy(&g_referee.power_heat_, ptrSrc, sizeof(g_referee.power_heat_));
-								//    PowerControl_Data.PoweBuffer = g_referee.power_heat_.buffer_energy;
-                    break;
+                        case ID_POWER_HEAT_DATA:
+                            memcpy(&g_referee.power_heat_, ptrSrc, sizeof(g_referee.power_heat_));
+                                        //    PowerControl_Data.PoweBuffer = g_referee.power_heat_.buffer_energy;
+                            break;
 
-                case ID_ROBOT_POS:
-                    memcpy(&g_referee.robot_pos_, ptrSrc, sizeof(g_referee.robot_pos_));
-                    break;
+                        case ID_ROBOT_POS:
+                            memcpy(&g_referee.robot_pos_, ptrSrc, sizeof(g_referee.robot_pos_));
+                            break;
 
-                case ID_BUFF:
-                    memcpy(&g_referee.buff_, ptrSrc, sizeof(g_referee.buff_));
-                    break;
+                        case ID_BUFF:
+                            memcpy(&g_referee.buff_, ptrSrc, sizeof(g_referee.buff_));
+                            break;
 
-                case ID_HURT_DATA:
-                    memcpy(&g_referee.hurt_data_, ptrSrc, sizeof(g_referee.hurt_data_));
-                    break;
+                        case ID_HURT_DATA:
+                            memcpy(&g_referee.hurt_data_, ptrSrc, sizeof(g_referee.hurt_data_));
+                            break;
 
-                case ID_SHOOT_DATA:
-                    memcpy(&g_referee.shoot_data_, ptrSrc, sizeof(g_referee.shoot_data_));
-                    break;
+                        case ID_SHOOT_DATA:
+                            memcpy(&g_referee.shoot_data_, ptrSrc, sizeof(g_referee.shoot_data_));
+                            break;
 
-                case ID_PROJECTILE_ALLOWANCE:
-                    memcpy(&g_referee.projectile_allowance_, ptrSrc, sizeof(g_referee.projectile_allowance_));
-                    break;
+                        case ID_PROJECTILE_ALLOWANCE:
+                            memcpy(&g_referee.projectile_allowance_, ptrSrc, sizeof(g_referee.projectile_allowance_));
+                            break;
 
-                case ID_RFID_STATUS:
-                    memcpy(&g_referee.rfid_status_, ptrSrc, sizeof(g_referee.rfid_status_));
-                    break;
+                        case ID_RFID_STATUS:
+                            memcpy(&g_referee.rfid_status_, ptrSrc, sizeof(g_referee.rfid_status_));
+                            break;
 
-                case ID_DART_CLIENT_CMD:
-                    memcpy(&g_referee.dart_client_cmd_, ptrSrc, sizeof(g_referee.dart_client_cmd_));
-                    break;
+                        case ID_DART_CLIENT_CMD:
+                            memcpy(&g_referee.dart_client_cmd_, ptrSrc, sizeof(g_referee.dart_client_cmd_));
+                            break;
 
-                case ID_GROUND_ROBOT_POSITION:
-                    memcpy(&g_referee.ground_robot_position_, ptrSrc, sizeof(g_referee.ground_robot_position_));
-                    break;
+                        case ID_GROUND_ROBOT_POSITION:
+                            memcpy(&g_referee.ground_robot_position_, ptrSrc, sizeof(g_referee.ground_robot_position_));
+                            break;
 
-                case ID_RADAR_MARK_DATA:
-                    memcpy(&g_referee.radar_mark_data_, ptrSrc, sizeof(g_referee.radar_mark_data_));
-                    break;
+                        case ID_RADAR_MARK_DATA:
+                            memcpy(&g_referee.radar_mark_data_, ptrSrc, sizeof(g_referee.radar_mark_data_));
+                            break;
 
-                case ID_SNETRY_INFO:
-                    memcpy(&g_referee.sentry_info_, ptrSrc, sizeof(g_referee.sentry_info_));
-                    break;
+                        case ID_SNETRY_INFO:
+                            memcpy(&g_referee.sentry_info_, ptrSrc, sizeof(g_referee.sentry_info_));
+                            break;
 
-                case ID_RADAR_INFO:
-                    memcpy(&g_referee.radar_info_, ptrSrc, sizeof(g_referee.radar_info_));
-                    break;
+                        case ID_RADAR_INFO:
+                            memcpy(&g_referee.radar_info_, ptrSrc, sizeof(g_referee.radar_info_));
+                            break;
 
-                case ID_REMOTE_CONTROL:
-                    memcpy(&g_referee.remote_control_, ptrSrc, sizeof(g_referee.remote_control_));
-                    break;
+                        case ID_REMOTE_CONTROL:
+                            memcpy(&g_referee.remote_control_, ptrSrc, sizeof(g_referee.remote_control_));
+                            break;
 
-                default:
-                    break;
+                        default:
+                            break;
+                    }
+                    judge_buf += judgeLen;
                 }
             }
         }
-
-        if (judge_buf[sizeof(g_referee.header_) + 2 + g_referee.header_.DataLength + 2] == 0xA5)
-        {
-            Judge_GetMessage(judge_buf + sizeof(g_referee.header_) + 2 + g_referee.header_.DataLength + 2);
-        }
+        judge_buf ++;
     }
-
 }
 
 

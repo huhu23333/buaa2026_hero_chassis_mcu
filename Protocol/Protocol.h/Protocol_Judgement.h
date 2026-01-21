@@ -315,8 +315,9 @@ typedef struct
 } Referee_t;
 
 
-#define JUDGESYSTEM_PACKSIZE 136
-extern uint8_t JudgeSystem_rxBuff[JUDGESYSTEM_PACKSIZE];
+// #define JUDGESYSTEM_PACKSIZE 136
+#define JUDGESYSTEM_BUFFSIZE 1024
+extern uint8_t JudgeSystem_rxBuff[JUDGESYSTEM_BUFFSIZE];
 extern Referee_t g_referee;
 
 extern void JudgeSystem_USART_Receive_DMA(UART_HandleTypeDef *huartx);
