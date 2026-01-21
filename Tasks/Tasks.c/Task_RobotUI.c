@@ -17,7 +17,9 @@ uint16_t UI_Hurt_Show_Time_Counter = 0;
 uint16_t UI_PushUp_Counter_Dynamic = 0;
 uint16_t UI_PushUp_Counter_Static = 0;
 
-#define UI_Dynamic_Max_Num 		10
+extern UI_Hurt_Data_t UI_Hurt_Data;
+
+#define UI_Dynamic_Max_Num 		12
 #define UI_Static_Max_Num 		100
 
 #define  UI_Hurt_Show_Time_MS 	3000
@@ -352,22 +354,52 @@ void UI_Draw_Update_9() {
 }
 void UI_Draw_Update_10() {
 	static float32_t changeable_value_1_last = 0;
+	static uint8_t changeable_value_2_last = 0;
 
-	float UI_Hurt_Angle = 2.0*PI*(float)M6020s_Yaw.realAngle/8192.0 + PI/2.0*(float)g_referee.hurt_data_.armor_id;
+	uint8_t hurt_armor_id = UI_Hurt_Data.armor_id;
+	if (UI_Hurt_Data.is_new_received) {
+		UI_Hurt_Data.is_new_received = 0;
+		UI_Hurt_Show_Time_Counter = 0;
+	}
+	uint8_t show_hurt_flag;
+	if (UI_Hurt_Show_Time_Counter * 35 > UI_Hurt_Show_Time_MS) {
+		UI_Hurt_Show_Time_Counter = UI_Hurt_Show_Time_MS / 35 + 1;
+		show_hurt_flag = 0;
+	} else {
+		show_hurt_flag = 1;
+	}
+	float UI_Hurt_Angle = 2.0*PI*(float)M6020s_Yaw.realAngle/8192.0;
+	switch (hurt_armor_id)
+	{
+		case 2:
+			UI_Hurt_Angle += PI/2.0 * 0.0;
+			break;
+		case 1:
+			UI_Hurt_Angle += PI/2.0 * 1.0;
+			break;
+		case 3:
+			UI_Hurt_Angle += PI/2.0 * 2.0;
+			break;
+		case 0:
+			UI_Hurt_Angle += PI/2.0 * 3.0;
+			break;
+		
+		default:
+			break;
+	}
+	UI_Hurt_Angle = show_hurt_flag ? UI_Hurt_Angle : 0.0;
 	float32_t changeable_value_1 = UI_Hurt_Angle;
+	float32_t changeable_value_2 = show_hurt_flag;
 	if (
-		changeable_value_1 == changeable_value_1_last
+		changeable_value_1 == changeable_value_1_last &&
+		changeable_value_2 == changeable_value_2_last
 	) {
 		if ((UI_PushUp_Counter_Dynamic + 1) % UI_Dynamic_Max_Num != 0) {
 			UI_PushUp_Counter_Dynamic += 1;
 		}
 	} else {
 		changeable_value_1_last = changeable_value_1;
-		if (UI_Hurt_Show_Time_Counter * 35 > UI_Hurt_Show_Time_MS) {
-			UI_Hurt_Show_Time_Counter = UI_Hurt_Show_Time_MS / 35 + 1;
-		} else {
-
-		}
+		changeable_value_2_last = changeable_value_2;
 		{
 			UI_Draw_Arrow(
 				960 +cos(changeable_value_1)*200, 
@@ -375,7 +407,7 @@ void UI_Draw_Update_10() {
 				960 +cos(changeable_value_1)*400, 
 				540 +sin(changeable_value_1)*400,
 				60,60, 
-				UI_Graph_Change, 4, 2, UI_Color_Black, "117", "118", "119");
+				UI_Graph_Change, 4, show_hurt_flag ? 2 : 0, UI_Color_Black, "117", "118", "119");
 		}
 	}
 }

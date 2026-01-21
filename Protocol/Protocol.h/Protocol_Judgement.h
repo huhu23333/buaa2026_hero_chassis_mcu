@@ -323,4 +323,12 @@ extern Referee_t g_referee;
 extern void JudgeSystem_USART_Receive_DMA(UART_HandleTypeDef *huartx);
 extern void JudgeSystem_Handler(UART_HandleTypeDef *huart);
 
+
+typedef struct {
+    uint8_t is_new_received;
+    uint8_t armor_id;
+    uint8_t reason;
+} UI_Hurt_Data_t;
+
 #endif
+

@@ -191,6 +191,7 @@ void JudgeSystem_Handler(UART_HandleTypeDef *huart)
 //    __HAL_DMA_DISABLE_IT(huart->hdmarx, DMA_IT_HT);
 }
 
+UI_Hurt_Data_t UI_Hurt_Data;
 
 /*****************************************************
  ** @brief  获取裁判系统信息                        **
@@ -265,6 +266,11 @@ void Judge_GetMessage(uint8_t* judge_buf) {
 
                         case ID_HURT_DATA:
                             memcpy(&g_referee.hurt_data_, ptrSrc, sizeof(g_referee.hurt_data_));
+                            if (g_referee.hurt_data_.HP_deduction_reason != 1) {
+                                UI_Hurt_Data.armor_id = g_referee.hurt_data_.armor_id;
+                                UI_Hurt_Data.reason = g_referee.hurt_data_.HP_deduction_reason;
+                                UI_Hurt_Data.is_new_received = 1;
+                            }
                             break;
 
                         case ID_SHOOT_DATA:

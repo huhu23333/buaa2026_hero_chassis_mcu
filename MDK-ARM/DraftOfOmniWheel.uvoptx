@@ -185,38 +185,6 @@
           <ExecCommand></ExecCommand>
           <Expression>\\DraftOfOmniWheel\../APPs/APPs.c/Cloud_Control.c\101</Expression>
         </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>266</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134238346</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>D:\Files\desktop\document-important\Transistor鎴橀槦\鐢垫帶\Hero_Board2_C _26\Protocol\Protocol.c\Protocol_Judgement.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\DraftOfOmniWheel\../Protocol/Protocol.c/Protocol_Judgement.c\266</Expression>
-        </Bp>
-        <Bp>
-          <Number>2</Number>
-          <Type>0</Type>
-          <LineNumber>210</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134238014</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>D:\Files\desktop\document-important\Transistor鎴橀槦\鐢垫帶\Hero_Board2_C _26\Protocol\Protocol.c\Protocol_Judgement.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\DraftOfOmniWheel\../Protocol/Protocol.c/Protocol_Judgement.c\210</Expression>
-        </Bp>
       </Breakpoint>
       <WatchWindow1>
         <Ww>
@@ -328,6 +296,16 @@
           <count>21</count>
           <WinNumber>1</WinNumber>
           <ItemText>PowerRxData.capEnergy</ItemText>
+        </Ww>
+        <Ww>
+          <count>22</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>g_referee.hurt_data_.armor_id</ItemText>
+        </Ww>
+        <Ww>
+          <count>23</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>g_referee</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
