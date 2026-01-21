@@ -14,6 +14,11 @@
 float CAP_Ratio =0.00;
 char stringWarning[]={"Warning"};
 uint16_t UI_Hurt_Show_Time_Counter = 0;
+uint16_t UI_PushUp_Counter_Dynamic = 0;
+uint16_t UI_PushUp_Counter_Static = 0;
+
+#define UI_Dynamic_Max_Num 		10
+#define UI_Static_Max_Num 		100
 
 #define  UI_Hurt_Show_Time_MS 	3000
 
@@ -143,222 +148,328 @@ void UI_Draw_Init_12() {
 
 //动态更新UI-----------------------------------------------------------------------------
 void UI_Draw_Update_1() {
-	//方向
-	UI_FUN.Line_Draw(&UI_Graph2.imageData[0], "107", UI_Graph_Change, 1, UI_Color_Green, 5, 1600, 800, 1600+cos(2*PI*M6020s_Yaw.realAngle/8192 - PI/4)*100, 800+sin(2*PI*M6020s_Yaw.realAngle/8192 - PI/4)*100);
+	//方向+超电
+	static uint32_t changeable_value_1_last = 0;
+	static uint32_t changeable_value_2_last = 0;
+	static uint32_t changeable_value_3_last = 0;
+
 	CAP_Ratio = ((float)PowerRxData.capEnergy) * 1.0f/255.0f;
-	UI_FUN.Line_Draw(&UI_Graph2.imageData[1], "116", UI_Graph_Change, 1, UI_Color_Orange, 20,
-					 UI_Init_X_1 + 6 , UI_Init_Y_1 - (int)((float)UI_Line_Spacing_1 * 7.5), UI_Init_X_1 + (int)(6.0 + (494.0 - 6.0) * CAP_Ratio), UI_Init_Y_1 - (int)((float)UI_Line_Spacing_1 * 7.5));
-	UI_FUN.UI_PushUp_Graphs(2, &UI_Graph2);
+	uint32_t changeable_value_1 = 1600+cos(2*PI*M6020s_Yaw.realAngle/8192 - PI/4)*100;
+	uint32_t changeable_value_2 = 800+sin(2*PI*M6020s_Yaw.realAngle/8192 - PI/4)*100;
+	uint32_t changeable_value_3 = UI_Init_X_1 + (int)(6.0 + (494.0 - 6.0) * CAP_Ratio);
+	if (
+		changeable_value_1 == changeable_value_1_last &&
+		changeable_value_2 == changeable_value_2_last &&
+		changeable_value_3 == changeable_value_3_last
+	) {
+		if ((UI_PushUp_Counter_Dynamic + 1) % UI_Dynamic_Max_Num != 0) {
+			UI_PushUp_Counter_Dynamic += 1;
+		}
+	} else {
+		changeable_value_1_last = changeable_value_1;
+		changeable_value_2_last = changeable_value_2;
+		changeable_value_3_last = changeable_value_3;
+		UI_FUN.Line_Draw(&UI_Graph2.imageData[0], "107", UI_Graph_Change, 1, UI_Color_Green, 5, 1600, 800, changeable_value_1, changeable_value_2);
+		UI_FUN.Line_Draw(&UI_Graph2.imageData[1], "116", UI_Graph_Change, 1, UI_Color_Orange, 20,
+						UI_Init_X_1 + 6 , UI_Init_Y_1 - (int)((float)UI_Line_Spacing_1 * 7.5), changeable_value_3, UI_Init_Y_1 - (int)((float)UI_Line_Spacing_1 * 7.5));
+		UI_FUN.UI_PushUp_Graphs(2, &UI_Graph2);
+	}
 }
 void UI_Draw_Update_2() {
-	if(CAP_Ratio <= 0.5)
-	{
-		UI_FUN.Char_Draw(&UI_String2.String,"404",UI_Graph_Add, 3,UI_Color_Main ,24, sizeof(stringWarning) , 4 ,900 , 700 , stringWarning);
-		UI_FUN.UI_PushUp_String(&UI_String2);
+	static float changeable_value_1_last = 0;
+
+	CAP_Ratio = ((float)PowerRxData.capEnergy) * 1.0f/255.0f;
+	float changeable_value_1 = CAP_Ratio;
+	if (
+		changeable_value_1 == changeable_value_1_last
+	) {
+		if ((UI_PushUp_Counter_Dynamic + 1) % UI_Dynamic_Max_Num != 0) {
+			UI_PushUp_Counter_Dynamic += 1;
+		}
+	} else {
+		changeable_value_1_last = changeable_value_1;
+		if(changeable_value_1 <= 0.5)
+		{
+			UI_FUN.Char_Draw(&UI_String2.String,"404",UI_Graph_Add, 3,UI_Color_Main ,24, sizeof(stringWarning) , 4 ,900 , 700 , stringWarning);
+			UI_FUN.UI_PushUp_String(&UI_String2);
+		}
+		else
+		{
+			UI_FUN.Char_Draw(&UI_String2.String,"404",UI_Graph_Del, 3,UI_Color_Main ,24, sizeof(stringWarning) , 4 ,900 , 700 , stringWarning);
+			UI_FUN.UI_PushUp_String(&UI_String2);
+		}
 	}
-	else
-	{
-		UI_FUN.Char_Draw(&UI_String2.String,"404",UI_Graph_Del, 3,UI_Color_Main ,24, sizeof(stringWarning) , 4 ,900 , 700 , stringWarning);
-		UI_FUN.UI_PushUp_String(&UI_String2);
-	}
+
 }
 void UI_Draw_Update_3() {
-	if (ControlMes.tnndcolor == 1) {
-		UI_FUN.Char_Draw(&UI_String1.String,"108",UI_Graph_Change, 3, UI_Color_Main, UI_Font_Size_1, 10, 
-					  	 UI_Line_Width_1, UI_Init_X_1, UI_Init_Y_1, "Team: Red");
+	static uint8_t changeable_value_1_last = 0;
+
+	uint8_t changeable_value_1 = ControlMes.tnndcolor;
+	if (
+		changeable_value_1 == changeable_value_1_last
+	) {
+		if ((UI_PushUp_Counter_Dynamic + 1) % UI_Dynamic_Max_Num != 0) {
+			UI_PushUp_Counter_Dynamic += 1;
+		}
 	} else {
-		UI_FUN.Char_Draw(&UI_String1.String,"108",UI_Graph_Change, 3, UI_Color_Main, UI_Font_Size_1, 11, 
-					  	 UI_Line_Width_1, UI_Init_X_1, UI_Init_Y_1, "Team: Blue");
+		changeable_value_1_last = changeable_value_1;
+		if (changeable_value_1 == 1) {
+			UI_FUN.Char_Draw(&UI_String1.String,"108",UI_Graph_Change, 3, UI_Color_Main, UI_Font_Size_1, 10, 
+							UI_Line_Width_1, UI_Init_X_1, UI_Init_Y_1, "Team: Red");
+		} else {
+			UI_FUN.Char_Draw(&UI_String1.String,"108",UI_Graph_Change, 3, UI_Color_Main, UI_Font_Size_1, 11, 
+							UI_Line_Width_1, UI_Init_X_1, UI_Init_Y_1, "Team: Blue");
+		}
+		UI_FUN.UI_PushUp_String(&UI_String1);
 	}
-	UI_FUN.UI_PushUp_String(&UI_String1);
 }
 void UI_Draw_Update_4() {
-	if (ControlMes.fric_Flag == 0) {
-		UI_FUN.Char_Draw(&UI_String1.String,"109",UI_Graph_Change, 3, UI_Color_Purplish_red, UI_Font_Size_1, 20, 
-							UI_Line_Width_1, UI_Init_X_1, UI_Init_Y_1 - UI_Line_Spacing_1, "Friction Wheel: Off");
+	static uint8_t changeable_value_1_last = 0;
+
+	uint8_t changeable_value_1 = ControlMes.fric_Flag;
+	if (
+		changeable_value_1 == changeable_value_1_last
+	) {
+		if ((UI_PushUp_Counter_Dynamic + 1) % UI_Dynamic_Max_Num != 0) {
+			UI_PushUp_Counter_Dynamic += 1;
+		}
 	} else {
-		UI_FUN.Char_Draw(&UI_String1.String,"109",UI_Graph_Change, 3, UI_Color_Green, UI_Font_Size_1, 19, 
-							UI_Line_Width_1, UI_Init_X_1, UI_Init_Y_1 - UI_Line_Spacing_1, "Friction Wheel: On");
+		changeable_value_1_last = changeable_value_1;
+		if (changeable_value_1 == 0) {
+			UI_FUN.Char_Draw(&UI_String1.String,"109",UI_Graph_Change, 3, UI_Color_Purplish_red, UI_Font_Size_1, 20, 
+								UI_Line_Width_1, UI_Init_X_1, UI_Init_Y_1 - UI_Line_Spacing_1, "Friction Wheel: Off");
+		} else {
+			UI_FUN.Char_Draw(&UI_String1.String,"109",UI_Graph_Change, 3, UI_Color_Green, UI_Font_Size_1, 19, 
+								UI_Line_Width_1, UI_Init_X_1, UI_Init_Y_1 - UI_Line_Spacing_1, "Friction Wheel: On");
+		}
+		UI_FUN.UI_PushUp_String(&UI_String1);
 	}
-	UI_FUN.UI_PushUp_String(&UI_String1);
 }
 void UI_Draw_Update_5() {
-	if (ControlMes.AutoAimFlag == 0) {
-		UI_FUN.Char_Draw(&UI_String1.String,"110",UI_Graph_Change, 3, UI_Color_Purplish_red, UI_Font_Size_1, 14, 
-						 UI_Line_Width_1, UI_Init_X_1, UI_Init_Y_1 - UI_Line_Spacing_1 * 2, "Auto Aim: Off");
-		} else {
-		UI_FUN.Char_Draw(&UI_String1.String,"110",UI_Graph_Change, 3, UI_Color_Green, UI_Font_Size_1, 13, 
-						 UI_Line_Width_1, UI_Init_X_1, UI_Init_Y_1 - UI_Line_Spacing_1 * 2, "Auto Aim: On");
+	static uint8_t changeable_value_1_last = 0;
+
+	uint8_t changeable_value_1 = ControlMes.AutoAimFlag;
+	if (
+		changeable_value_1 == changeable_value_1_last
+	) {
+		if ((UI_PushUp_Counter_Dynamic + 1) % UI_Dynamic_Max_Num != 0) {
+			UI_PushUp_Counter_Dynamic += 1;
+		}
+	} else {
+		changeable_value_1_last = changeable_value_1;
+		if (changeable_value_1 == 0) {
+			UI_FUN.Char_Draw(&UI_String1.String,"110",UI_Graph_Change, 3, UI_Color_Purplish_red, UI_Font_Size_1, 14, 
+							UI_Line_Width_1, UI_Init_X_1, UI_Init_Y_1 - UI_Line_Spacing_1 * 2, "Auto Aim: Off");
+			} else {
+			UI_FUN.Char_Draw(&UI_String1.String,"110",UI_Graph_Change, 3, UI_Color_Green, UI_Font_Size_1, 13, 
+							UI_Line_Width_1, UI_Init_X_1, UI_Init_Y_1 - UI_Line_Spacing_1 * 2, "Auto Aim: On");
+		}
+		UI_FUN.UI_PushUp_String(&UI_String1);
 	}
-	UI_FUN.UI_PushUp_String(&UI_String1);
 }
 void UI_Draw_Update_6() {
-	if (ControlMes.change_Flag == 0) {
-		UI_FUN.Char_Draw(&UI_String1.String,"111",UI_Graph_Change, 3, UI_Color_Purplish_red, UI_Font_Size_1, 18, 
-						 UI_Line_Width_1, UI_Init_X_1, UI_Init_Y_1 - UI_Line_Spacing_1 * 3, "Change Speed: Off");
+	static uint8_t changeable_value_1_last = 0;
+
+	uint8_t changeable_value_1 = ControlMes.change_Flag;
+	if (
+		changeable_value_1 == changeable_value_1_last
+	) {
+		if ((UI_PushUp_Counter_Dynamic + 1) % UI_Dynamic_Max_Num != 0) {
+			UI_PushUp_Counter_Dynamic += 1;
+		}
 	} else {
-		UI_FUN.Char_Draw(&UI_String1.String,"111",UI_Graph_Change, 3, UI_Color_Green, UI_Font_Size_1, 17, 
-						 UI_Line_Width_1, UI_Init_X_1, UI_Init_Y_1 - UI_Line_Spacing_1 * 3, "Change Speed: On");
+		changeable_value_1_last = changeable_value_1;
+		if (changeable_value_1 == 0) {
+			UI_FUN.Char_Draw(&UI_String1.String,"111",UI_Graph_Change, 3, UI_Color_Purplish_red, UI_Font_Size_1, 18, 
+							UI_Line_Width_1, UI_Init_X_1, UI_Init_Y_1 - UI_Line_Spacing_1 * 3, "Change Speed: Off");
+		} else {
+			UI_FUN.Char_Draw(&UI_String1.String,"111",UI_Graph_Change, 3, UI_Color_Green, UI_Font_Size_1, 17, 
+							UI_Line_Width_1, UI_Init_X_1, UI_Init_Y_1 - UI_Line_Spacing_1 * 3, "Change Speed: On");
+		}
+		UI_FUN.UI_PushUp_String(&UI_String1);
 	}
-	UI_FUN.UI_PushUp_String(&UI_String1);
 }
 void UI_Draw_Update_7() {
-	char temp_string[30];
-	memset(temp_string, 0, sizeof(temp_string));
-	sprintf(temp_string, "Shoot Speed: %dHz", ControlMes.shoot_Speed);
-	UI_FUN.Char_Draw(&UI_String1.String,"112",UI_Graph_Change, 3, UI_Color_Orange, UI_Font_Size_1, sizeof(temp_string), 
-					  UI_Line_Width_1, UI_Init_X_1, UI_Init_Y_1 - UI_Line_Spacing_1 * 4, temp_string);
-	UI_FUN.UI_PushUp_String(&UI_String1);
+	static uint8_t changeable_value_1_last = 0;
+
+	uint8_t changeable_value_1 = ControlMes.shoot_Speed;
+	if (
+		changeable_value_1 == changeable_value_1_last
+	) {
+		if ((UI_PushUp_Counter_Dynamic + 1) % UI_Dynamic_Max_Num != 0) {
+			UI_PushUp_Counter_Dynamic += 1;
+		}
+	} else {
+		changeable_value_1_last = changeable_value_1;
+		char temp_string[30];
+		memset(temp_string, 0, sizeof(temp_string));
+		sprintf(temp_string, "Shoot Speed: %dHz", changeable_value_1);
+		UI_FUN.Char_Draw(&UI_String1.String,"112",UI_Graph_Change, 3, UI_Color_Orange, UI_Font_Size_1, sizeof(temp_string), 
+						UI_Line_Width_1, UI_Init_X_1, UI_Init_Y_1 - UI_Line_Spacing_1 * 4, temp_string);
+		UI_FUN.UI_PushUp_String(&UI_String1);
+	}
 }
 void UI_Draw_Update_8() {
-	char temp_string[30];
-	memset(temp_string, 0, sizeof(temp_string));
-	sprintf(temp_string, "Rotate Speed: %.1f Degree/s", Saber_Angle.Z_Vel);
-	UI_FUN.Char_Draw(&UI_String1.String,"113",UI_Graph_Change, 3, UI_Color_Orange, UI_Font_Size_1, sizeof(temp_string), 
-					  UI_Line_Width_1, UI_Init_X_1, UI_Init_Y_1 - UI_Line_Spacing_1 * 5, temp_string);
-	UI_FUN.UI_PushUp_String(&UI_String1);
+	static float32_t changeable_value_1_last = 0;
+
+	float32_t changeable_value_1 = Saber_Angle.Z_Vel;
+	if (
+		changeable_value_1 == changeable_value_1_last
+	) {
+		if ((UI_PushUp_Counter_Dynamic + 1) % UI_Dynamic_Max_Num != 0) {
+			UI_PushUp_Counter_Dynamic += 1;
+		}
+	} else {
+		changeable_value_1_last = changeable_value_1;
+		char temp_string[30];
+		memset(temp_string, 0, sizeof(temp_string));
+		sprintf(temp_string, "Rotate Speed: %.1f Degree/s", changeable_value_1);
+		UI_FUN.Char_Draw(&UI_String1.String,"113",UI_Graph_Change, 3, UI_Color_Orange, UI_Font_Size_1, sizeof(temp_string), 
+						UI_Line_Width_1, UI_Init_X_1, UI_Init_Y_1 - UI_Line_Spacing_1 * 5, temp_string);
+		UI_FUN.UI_PushUp_String(&UI_String1);
+	}
 }
 void UI_Draw_Update_9() {
+	static float32_t changeable_value_1_last = 0;
+
 	CAP_Ratio = ((float)PowerRxData.capEnergy) * 1.0f/255.0f;
-	char temp_string[30];
-	memset(temp_string, 0, sizeof(temp_string));
-	sprintf(temp_string, "Super Capacitor: %.2f%%", CAP_Ratio * 100.0);
-	UI_FUN.Char_Draw(&UI_String1.String,"114",UI_Graph_Change, 3, UI_Color_Orange, UI_Font_Size_1, sizeof(temp_string), 
-					  UI_Line_Width_1, UI_Init_X_1, UI_Init_Y_1 - UI_Line_Spacing_1 * 6, temp_string);
-	UI_FUN.UI_PushUp_String(&UI_String1);
+	float32_t changeable_value_1 = CAP_Ratio;
+	if (
+		changeable_value_1 == changeable_value_1_last
+	) {
+		if ((UI_PushUp_Counter_Dynamic + 1) % UI_Dynamic_Max_Num != 0) {
+			UI_PushUp_Counter_Dynamic += 1;
+		}
+	} else {
+		changeable_value_1_last = changeable_value_1;
+		char temp_string[30];
+		memset(temp_string, 0, sizeof(temp_string));
+		sprintf(temp_string, "Super Capacitor: %.2f%%", changeable_value_1 * 100.0);
+		UI_FUN.Char_Draw(&UI_String1.String,"114",UI_Graph_Change, 3, UI_Color_Orange, UI_Font_Size_1, sizeof(temp_string), 
+						UI_Line_Width_1, UI_Init_X_1, UI_Init_Y_1 - UI_Line_Spacing_1 * 6, temp_string);
+		UI_FUN.UI_PushUp_String(&UI_String1);
+	}
 }
 void UI_Draw_Update_10() {
-	if (UI_Hurt_Show_Time_Counter * 35 > UI_Hurt_Show_Time_MS) {
-		UI_Hurt_Show_Time_Counter = UI_Hurt_Show_Time_MS / 35 + 1;
-	} else {
+	static float32_t changeable_value_1_last = 0;
 
-	}
-	{
-		float UI_Hurt_Angle = 2.0*PI*(float)M6020s_Yaw.realAngle/8192.0 + PI/2.0*(float)g_referee.hurt_data_.armor_id;
-		UI_Draw_Arrow(
-			960 +cos(UI_Hurt_Angle)*200, 
-			540 +sin(UI_Hurt_Angle)*200,
-			960 +cos(UI_Hurt_Angle)*400, 
-			540 +sin(UI_Hurt_Angle)*400,
-			60,60, 
-			UI_Graph_Change, 4, 2, UI_Color_Black, "117", "118", "119");
+	float UI_Hurt_Angle = 2.0*PI*(float)M6020s_Yaw.realAngle/8192.0 + PI/2.0*(float)g_referee.hurt_data_.armor_id;
+	float32_t changeable_value_1 = UI_Hurt_Angle;
+	if (
+		changeable_value_1 == changeable_value_1_last
+	) {
+		if ((UI_PushUp_Counter_Dynamic + 1) % UI_Dynamic_Max_Num != 0) {
+			UI_PushUp_Counter_Dynamic += 1;
+		}
+	} else {
+		changeable_value_1_last = changeable_value_1;
+		if (UI_Hurt_Show_Time_Counter * 35 > UI_Hurt_Show_Time_MS) {
+			UI_Hurt_Show_Time_Counter = UI_Hurt_Show_Time_MS / 35 + 1;
+		} else {
+
+		}
+		{
+			UI_Draw_Arrow(
+				960 +cos(changeable_value_1)*200, 
+				540 +sin(changeable_value_1)*200,
+				960 +cos(changeable_value_1)*400, 
+				540 +sin(changeable_value_1)*400,
+				60,60, 
+				UI_Graph_Change, 4, 2, UI_Color_Black, "117", "118", "119");
+		}
 	}
 }
 
 
 void Robot_UI(void const *argument) {
-	static u16 UI_PushUp_Counter = 0;
 	vTaskDelay(300);
 	TickType_t last_time;
     for (;;)
     {
 		UI_FUN.ID_Judge();
 		vTaskDelay(pdMS_TO_TICKS(35));
-		UI_Hurt_Show_Time_Counter += 1;
 //静态UI及动态初始UI---------------------------------------------------------------------------------------------------------------------------
-		switch (UI_PushUp_Counter % 100)
+		int8_t extra_delay_flag = 1;
+		switch (UI_PushUp_Counter_Static % UI_Static_Max_Num)
 		{
 			case 0:
 				UI_Draw_Init_1();
-				vTaskDelay(pdMS_TO_TICKS(35));
-				UI_Hurt_Show_Time_Counter += 1;
 				break;
 			case 1:
 				UI_Draw_Init_2();
-				vTaskDelay(pdMS_TO_TICKS(35));
-				UI_Hurt_Show_Time_Counter += 1;
 				break;
 			case 2:
 				UI_Draw_Init_3();
-				vTaskDelay(pdMS_TO_TICKS(35));
-				UI_Hurt_Show_Time_Counter += 1;
 				break;
 			case 3:
 				UI_Draw_Init_4();
-				vTaskDelay(pdMS_TO_TICKS(35));
-				UI_Hurt_Show_Time_Counter += 1;
 				break;
 			case 4:
 				UI_Draw_Init_5();
-				vTaskDelay(pdMS_TO_TICKS(35));
-				UI_Hurt_Show_Time_Counter += 1;
 				break;
 			case 5:
 				UI_Draw_Init_6();
-				vTaskDelay(pdMS_TO_TICKS(35));
-				UI_Hurt_Show_Time_Counter += 1;
 				break;
 			case 6:
 				UI_Draw_Init_7();
-				vTaskDelay(pdMS_TO_TICKS(35));
-				UI_Hurt_Show_Time_Counter += 1;
 				break;
 			case 7:
 				UI_Draw_Init_8();
-				vTaskDelay(pdMS_TO_TICKS(35));
-				UI_Hurt_Show_Time_Counter += 1;
 				break;
 			case 8:
 				UI_Draw_Init_9();
-				vTaskDelay(pdMS_TO_TICKS(35));
-				UI_Hurt_Show_Time_Counter += 1;
 				break;
 			case 9:
 				UI_Draw_Init_10();
-				vTaskDelay(pdMS_TO_TICKS(35));
-				UI_Hurt_Show_Time_Counter += 1;
 				break;
 			case 10:
 				UI_Draw_Init_11();
-				vTaskDelay(pdMS_TO_TICKS(35));
-				UI_Hurt_Show_Time_Counter += 1;
 				break;
 			case 11:
 				UI_Draw_Init_12();
-				vTaskDelay(pdMS_TO_TICKS(35));
-				UI_Hurt_Show_Time_Counter += 1;
 				break;
 		
 			default:
+				extra_delay_flag = 0;
 				break;
+		}
+		if (extra_delay_flag) {
+			vTaskDelay(pdMS_TO_TICKS(35));
+			UI_Hurt_Show_Time_Counter += 1;
 		}
 //动态更新UI-----------------------------------------------------------------------------
-		switch (UI_PushUp_Counter % 10)
-		{
-			case 0:
-				UI_Draw_Update_1();
-				break;
-			case 1:
-				UI_Draw_Update_2();
-				break;
-			case 2:
-				UI_Draw_Update_3();
-				break;
-			case 3:
-				UI_Draw_Update_4();
-				break;
-			case 4:
-				UI_Draw_Update_5();
-				break;
-			case 5:
-				UI_Draw_Update_6();
-				break;
-			case 6:
-				UI_Draw_Update_7();
-				break;
-			case 7:
-				UI_Draw_Update_8();
-				break;
-			case 8:
-				UI_Draw_Update_9();
-				break;
-			case 9:
-				UI_Draw_Update_10();
-				break;
-		
-			default:
-				break;
+		if (UI_PushUp_Counter_Dynamic % UI_Dynamic_Max_Num == 0) {
+			UI_Draw_Update_1();
 		}
-		UI_PushUp_Counter++;
+		if (UI_PushUp_Counter_Dynamic % UI_Dynamic_Max_Num == 1) {
+			UI_Draw_Update_2();
+		}
+		if (UI_PushUp_Counter_Dynamic % UI_Dynamic_Max_Num == 2) {
+			UI_Draw_Update_3();
+		}
+		if (UI_PushUp_Counter_Dynamic % UI_Dynamic_Max_Num == 3) {
+			UI_Draw_Update_4();
+		}
+		if (UI_PushUp_Counter_Dynamic % UI_Dynamic_Max_Num == 4) {
+			UI_Draw_Update_5();
+		}
+		if (UI_PushUp_Counter_Dynamic % UI_Dynamic_Max_Num == 5) {
+			UI_Draw_Update_6();
+		}
+		if (UI_PushUp_Counter_Dynamic % UI_Dynamic_Max_Num == 6) {
+			UI_Draw_Update_7();
+		}
+		if (UI_PushUp_Counter_Dynamic % UI_Dynamic_Max_Num == 7) {
+			UI_Draw_Update_8();
+		}
+		if (UI_PushUp_Counter_Dynamic % UI_Dynamic_Max_Num == 8) {
+			UI_Draw_Update_9();
+		}
+		if (UI_PushUp_Counter_Dynamic % UI_Dynamic_Max_Num == 9) {
+			UI_Draw_Update_10();
+		}
+		UI_PushUp_Counter_Dynamic++;
+		UI_PushUp_Counter_Static++;
+		UI_Hurt_Show_Time_Counter += 1;
 	}
 }
