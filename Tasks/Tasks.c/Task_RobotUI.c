@@ -444,16 +444,16 @@ void UI_Draw_Update_10() {
 	float UI_Hurt_Angle = UI_Chassis_Angle;
 	switch (hurt_armor_id)
 	{
-		case 2:
-			UI_Hurt_Angle += PI/2.0 * 0.0;
-			break;
-		case 1:
+		case 0:
 			UI_Hurt_Angle += PI/2.0 * 1.0;
 			break;
-		case 3:
+		case 1:
+			UI_Hurt_Angle += PI/2.0 * 0.0;
+			break;
+		case 2:
 			UI_Hurt_Angle += PI/2.0 * 2.0;
 			break;
-		case 0:
+		case 3:
 			UI_Hurt_Angle += PI/2.0 * 3.0;
 			break;
 		
